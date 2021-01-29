@@ -10,15 +10,15 @@ export class WsService {
 
   }
 
-  sendWsTest(message){
-    this.socket.emit('ws-test', message);
+  sendWsMessage(message){
+    this.socket.emit('message', message);
   }
 
-  receiveWsTest(){
-    return this.socket.fromEvent('ws-test');
+  albumSessionStartedEvent() {
+    return this.socket.fromEvent('album-session-started');
   }
 
-  getUsers(){
+  usersEvent(){
     return this.socket.fromEvent('users');
   }
 
