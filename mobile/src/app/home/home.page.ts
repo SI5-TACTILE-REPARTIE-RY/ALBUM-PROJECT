@@ -10,28 +10,24 @@ import { HttpClient } from '@angular/common/http';
 export class HomePage {
 
   public users: number = 0;
-  public message: string = '';
-  public messages: string[] = [];
+  public albumSessionStarted: boolean = false;
 
-  constructor(private wsService: WsService, private http: HttpClient) {}
+  constructor(private wsService: WsService, private http: HttpClient) { }
 
   ngOnInit() {
-    this.http.get('http://localhost:3000/start-album-session').subscribe();
 
-    this.wsService.receiveWsTest().subscribe((message: string) => {
-      this.messages.push(message);
+    this.wsService.albumSessionStartedEvent().subscribe(() => {
+      this.albumSessionStarted = true;
     });
 
-    this.wsService.getUsers().subscribe((users: number) => {
+    this.wsService.usersEvent().subscribe((users: number) => {
       this.users = users;
     });
 
   }
 
-  addChat() {
-    this.messages.push(this.message);
-    this.wsService.sendWsTest(this.message);
-    this.message = '';
+  startAlbumSession() {
+    this.http.get('http://localhost:3000/start-album-session').subscribe();
   }
 
 }

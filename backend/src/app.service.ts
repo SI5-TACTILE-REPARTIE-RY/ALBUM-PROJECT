@@ -12,6 +12,6 @@ export class AppService {
 
   startAlbumSession(): void {
     Session.started = true;
-    this.wsGateway.send('album session started');
+    this.wsGateway.albumSessionStarted();
   }
 }
