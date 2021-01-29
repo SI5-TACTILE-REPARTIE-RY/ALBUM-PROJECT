@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { HttpClientModule } from '@angular/common/http';
+import { DeviceMotion } from '@ionic-native/device-motion/ngx';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
 
@@ -27,6 +28,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
   providers: [
     StatusBar,
     SplashScreen,
+    DeviceMotion,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

@@ -8,14 +8,20 @@ import {DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-
 })
 export class AccelerometerComponent implements OnInit {
 
+  offset = 10;
   color = 'grey';
 
   constructor(private deviceMotion: DeviceMotion) { }
 
   ngOnInit() {
     // Watch device acceleration
-    this.deviceMotion.watchAcceleration().subscribe((acceleration: DeviceMotionAccelerationData) => {
-      (acceleration.x !== 0 && acceleration.y !== 0) ? this.color = 'red' : this.color = 'grey';
+    this.deviceMotion.watchAcceleration({ frequency: 100 }).subscribe((acceleration: DeviceMotionAccelerationData) => {
+      if ((acceleration.x >= this.offset || acceleration.x <= -this.offset) ||
+          (acceleration.y >= this.offset || acceleration.y <= -this.offset)) {
+        this.color = 'red';
+      } else {
+        this.color = 'grey';
+      }
     });
   }
 
