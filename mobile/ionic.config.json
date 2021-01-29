@@ -1,0 +1,7 @@
+{
+  "name": "si5-repartie-mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
