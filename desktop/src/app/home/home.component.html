@@ -1,1 +1,8 @@
-<p>home works!</p>
+<ng-container *ngIf="!albumSessionStarted">
+    There are currently <strong>{{users}}</strong> users online.
+    <button (click)="startAlbumSession()">Start album session</button>
+</ng-container>
+
+<ng-container *ngIf="albumSessionStarted && photoSrc">
+    <img [src]="photoSrc" alt="Photo"/>
+</ng-container>

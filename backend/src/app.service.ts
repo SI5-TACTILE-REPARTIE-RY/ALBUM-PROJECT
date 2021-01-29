@@ -12,6 +12,6 @@ export class AppService {
 
   startAlbumSession(): void {
     Session.started = true;
-    this.wsGateway.albumSessionStarted();
+    this.wsGateway.albumSessionStarted('http://localhost:3000/india-photo.jpg');
   }
 }

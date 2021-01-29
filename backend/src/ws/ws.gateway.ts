@@ -26,8 +26,7 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.broadcast.emit('message', message);
   }
 
-  async albumSessionStarted() {
-    this.server.emit('album-session-started', true);
+  async albumSessionStarted(photoSrc: string) {
+    this.server.emit('album-session-started', photoSrc);
   }
-
 }

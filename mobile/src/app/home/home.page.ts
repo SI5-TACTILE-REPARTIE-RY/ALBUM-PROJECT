@@ -11,13 +11,15 @@ export class HomePage {
 
   public users: number = 0;
   public albumSessionStarted: boolean = false;
+  public photoSrc: string = null;
 
   constructor(private wsService: WsService, private http: HttpClient) { }
 
   ngOnInit() {
 
-    this.wsService.albumSessionStartedEvent().subscribe(() => {
+    this.wsService.albumSessionStartedEvent().subscribe((photoSrc: string) => {
       this.albumSessionStarted = true;
+      this.photoSrc = photoSrc;
     });
 
     this.wsService.usersEvent().subscribe((users: number) => {

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { WsService } from '../services/ws.service';
 
@@ -7,17 +8,28 @@ import { WsService } from '../services/ws.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  
+  public users: number = 0;
+  public albumSessionStarted: boolean = false;
+  public photoSrc: string = null;
 
-  constructor(private wsService: WsService) { }
+  constructor(private wsService: WsService, private http: HttpClient) { }
 
-  ngOnInit(): void {
-    this.wsService.receiveWsTest().subscribe((message: string) => {
-      console.log(message);
+  ngOnInit() {
+
+    this.wsService.albumSessionStartedEvent().subscribe((photoSrc: string) => {
+      this.albumSessionStarted = true;
+      this.photoSrc = photoSrc;
     });
 
-    this.wsService.getUsers().subscribe((users: number) => {
-      console.log(users);
+    this.wsService.usersEvent().subscribe((users: number) => {
+      this.users = users;
     });
+
+  }
+
+  startAlbumSession() {
+    this.http.get('http://localhost:3000/start-album-session').subscribe();
   }
 
 }

@@ -16,8 +16,6 @@
 		Start album session
 	</ion-button>
 
-	<h2 *ngIf="albumSessionStarted">
-		Session started !
-	</h2>
+	<ion-img *ngIf="photoSrc" [src]="photoSrc"></ion-img>
 
 </ion-content>
