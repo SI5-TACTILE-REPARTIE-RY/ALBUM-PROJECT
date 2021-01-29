@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">shakeyouralbum</string>
+    <string name="title_activity_main">shakeyouralbum</string>
+    <string name="package_name">com.si5.shakeyouralbum</string>
+    <string name="custom_url_scheme">com.si5.shakeyouralbum</string>
+</resources>
