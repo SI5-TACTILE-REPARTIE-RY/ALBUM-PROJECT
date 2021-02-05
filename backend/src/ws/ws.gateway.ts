@@ -5,20 +5,20 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
-import { Session } from '../session';
+import { CurrentSession } from '../session';
 
 @WebSocketGateway()
 export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server;
 
   async handleConnection() {
-    Session.users++;
-    this.server.emit('users', Session.users);
+    CurrentSession.users++;
+    this.server.emit('users', CurrentSession.users);
   }
 
   async handleDisconnect() {
-    Session.users--;
-    this.server.emit('users', Session.users);
+    CurrentSession.users--;
+    this.server.emit('users', CurrentSession.users);
   }
 
   @SubscribeMessage('message')
@@ -28,6 +28,10 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   async albumSessionStarted(photoSrc: string) {
     this.server.emit('album-session-started', photoSrc);
+  }
+
+  async albumSessionStopped() {
+    this.server.emit('album-session-stopped');
   }
 
   async filterApplied(filterName: string) {

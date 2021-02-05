@@ -14,16 +14,20 @@
 				</ion-card-content>
 			</ion-card>
 
-			<ion-button *ngIf="!photoSrc" (click)="startAlbumSession()">
+			<ion-button *ngIf="!albumSessionStarted" (click)="startAlbumSession()">
 				Start album session
 			</ion-button>
 
-			<img [ngClass]="{'visibility': currentFilterApplied ? 'visible' : 'hidden'}" *ngIf="photoSrc"
-				[src]="photoSrc" (load)="imageLoaded()" alt="Album Image" crossOrigin="Anonymous" #albumImage />
+			<ion-button *ngIf="albumSessionStarted" (click)="stopAlbumSession()">
+				Stop album session
+			</ion-button>
+
+			<img [ngClass]="{'visibility': currentFilterApplied ? 'visible' : 'hidden'}" *ngIf="photoSrc && albumSessionStarted"
+				(load)="imageLoaded()" alt="Album Image" crossOrigin="Anonymous" #albumImage />
 
 		</ion-row>
 
-		<ion-row *ngIf="photoSrc">
+		<ion-row *ngIf="albumSessionStarted">
 
 			<ion-button (click)="applyRandomFilter()">
 				Apply a random filter
