@@ -1,6 +1,6 @@
 export interface Session {
   users: number;
   started: boolean;
-  currentPhotoSrc: string;
+  currentPhotoName: string;
   currentFilterName: string;
 };

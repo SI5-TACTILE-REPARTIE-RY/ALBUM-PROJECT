@@ -12,8 +12,8 @@ export class AppService {
 
   startAlbumSession(): void {
     CurrentSession.started = true;
-    CurrentSession.currentPhotoSrc = 'http://localhost:3000/india-photo.jpg';
-    this.wsGateway.albumSessionStarted(CurrentSession.currentPhotoSrc);
+    CurrentSession.currentPhotoName = 'india-photo.jpg';
+    this.wsGateway.albumSessionStarted(CurrentSession.currentPhotoName);
   }
 
   stopAlbumSession(): void {

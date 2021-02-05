@@ -5,6 +5,8 @@ import { FilterNames } from './filter-names';
 import { environment } from 'src/environments/environment';
 import { Session } from './session';
 import { HTTP, HTTPResponse } from '@ionic-native/http/ngx';
+import { HttpClient } from '@angular/common/http';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -21,20 +23,22 @@ export class HomePage implements AfterViewInit {
   public currentFilterApplied: boolean = true;
   public filterNames: string[] = FilterNames;
 
-  constructor(private wsService: WsService, private http: HTTP) { }
+  constructor(private wsService: WsService, private httpMobile: HTTP, private platform: Platform, private httpWeb: HttpClient) { }
 
   ngAfterViewInit() {
-    this.http.get(`${environment.SERVER_ADDRESS}:3000/session`, {}, {}).then((result: HTTPResponse) => {
-      const session: Session = result.data;
-      this.users = session.users;
-      this.albumSessionStarted = session.started;
-      this.updateFilter(session.currentFilterName);
-      this.updatePhotoSrc(session.currentPhotoSrc);
-    });
+    if (this.platform.is('cordova')) {
+      this.httpMobile.get(`${environment.SERVER_ADDRESS}:3000/session`, {}, {}).then((result: HTTPResponse) => {
+        this.setSession(result.data);
+      });
+    } else {
+      this.httpWeb.get(`${environment.SERVER_ADDRESS}:3000/session`).subscribe((session: Session) => {
+        this.setSession(session);
+      });
+    }
 
-    this.wsService.albumSessionStartedEvent().subscribe((photoSrc: string) => {
+    this.wsService.albumSessionStartedEvent().subscribe((photoName: string) => {
       this.albumSessionStarted = true;
-      this.updatePhotoSrc(photoSrc);
+      this.updatePhotoSrc(environment.SERVER_ADDRESS + '/' + photoName);
     });
 
     this.wsService.albumSessionStoppedEvent().subscribe(() => {
@@ -53,6 +57,13 @@ export class HomePage implements AfterViewInit {
 
   }
 
+  setSession(session: Session) {
+    this.users = session.users;
+    this.albumSessionStarted = session.started;
+    this.updateFilter(session.currentFilterName);
+    this.updatePhotoSrc(environment.SERVER_ADDRESS + '/' + session.currentPhotoName);
+  }
+
   async imageLoaded() {
     if (!this.currentFilterApplied) {
       const blob = await applyPresetOnImage(this.albumImage.nativeElement, presetsMapping[this.currentFilterName]());
@@ -62,20 +73,36 @@ export class HomePage implements AfterViewInit {
   }
 
   startAlbumSession() {
-    this.http.get(`${environment.SERVER_ADDRESS}/start-album-session`, {}, {});
+    if (this.platform.is('cordova')) {
+      this.httpMobile.get(`${environment.SERVER_ADDRESS}/start-album-session`, {}, {});
+    } else {
+      this.httpWeb.get(`${environment.SERVER_ADDRESS}/start-album-session`).subscribe();
+    }
   }
 
   stopAlbumSession() {
-    this.http.get(`${environment.SERVER_ADDRESS}/stop-album-session`, {}, {});
+    if (this.platform.is('cordova')) {
+      this.httpMobile.get(`${environment.SERVER_ADDRESS}/stop-album-session`, {}, {});
+    } else {
+      this.httpWeb.get(`${environment.SERVER_ADDRESS}/stop-album-session`).subscribe();
+    }
   }
 
   applyRandomFilter() {
     const randomFilterName = this.filterNames[Math.floor(Math.random() * this.filterNames.length)];
-    this.http.get(`${environment.SERVER_ADDRESS}/apply-filter/${randomFilterName}`, {}, {});
+    if (this.platform.is('cordova')) {
+      this.httpMobile.get(`${environment.SERVER_ADDRESS}/apply-filter/${randomFilterName}`, {}, {});
+    } else {
+      this.httpWeb.get(`${environment.SERVER_ADDRESS}/apply-filter/${randomFilterName}`).subscribe();
+    }
   }
 
   applyFilter() {
-    this.http.get(`${environment.SERVER_ADDRESS}/apply-filter/${this.currentFilterName}`, {}, {});
+    if (this.platform.is('cordova')) {
+      this.httpMobile.get(`${environment.SERVER_ADDRESS}/apply-filter/${this.currentFilterName}`, {}, {});
+    } else {
+      this.httpWeb.get(`${environment.SERVER_ADDRESS}/apply-filter/${this.currentFilterName}`).subscribe();
+    }
   }
 
   updateFilter(fiterName) {
