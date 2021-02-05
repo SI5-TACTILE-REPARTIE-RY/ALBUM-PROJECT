@@ -22,4 +22,7 @@ export class WsService {
     return this.socket.fromEvent('users');
   }
 
+  filterAppliedEvent(){
+    return this.socket.fromEvent('filter-applied');
+  }
 }

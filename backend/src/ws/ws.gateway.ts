@@ -29,4 +29,8 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async albumSessionStarted(photoSrc: string) {
     this.server.emit('album-session-started', photoSrc);
   }
+
+  async filterApplied(filterName: string) {
+    this.server.emit('filter-applied', filterName);
+  }
 }

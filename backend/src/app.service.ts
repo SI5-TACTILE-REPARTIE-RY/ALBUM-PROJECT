@@ -14,4 +14,8 @@ export class AppService {
     Session.started = true;
     this.wsGateway.albumSessionStarted('http://localhost:3000/india-photo.jpg');
   }
+
+  applyFilter(filterName: string): void {
+    this.wsGateway.filterApplied(filterName);
+  }
 }
