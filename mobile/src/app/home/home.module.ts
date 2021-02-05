@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import {AccelerometerComponent} from './accelerometer/accelerometer.component';
+import {HTTP} from '@ionic-native/http/ngx';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import {AccelerometerComponent} from './accelerometer/accelerometer.component';
   declarations: [
       HomePage,
       AccelerometerComponent
-  ]
+  ],
+  providers: [HTTP]
 })
 export class HomePageModule {}

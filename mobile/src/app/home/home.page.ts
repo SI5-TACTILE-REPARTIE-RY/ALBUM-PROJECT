@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { WsService } from '../services/ws.service';
-import { HttpClient } from '@angular/common/http';
 import { applyPresetOnImage, presetsMapping } from 'instagram-filters';
 import { FilterNames } from './filter-names';
 import { environment } from 'src/environments/environment';
 import { Session } from './session';
+import { HTTP, HTTPResponse } from '@ionic-native/http/ngx';
 
 @Component({
   selector: 'app-home',
@@ -21,10 +21,11 @@ export class HomePage implements AfterViewInit {
   public currentFilterApplied: boolean = true;
   public filterNames: string[] = FilterNames;
 
-  constructor(private wsService: WsService, private http: HttpClient) { }
+  constructor(private wsService: WsService, private http: HTTP) { }
 
   ngAfterViewInit() {
-    this.http.get(`${environment.SERVER_ADDRESS}/session`).subscribe((session: Session) => {
+    this.http.get(`${environment.SERVER_ADDRESS}:3000/session`, {}, {}).then((result: HTTPResponse) => {
+      const session: Session = result.data;
       this.users = session.users;
       this.albumSessionStarted = session.started;
       this.updateFilter(session.currentFilterName);
@@ -61,20 +62,20 @@ export class HomePage implements AfterViewInit {
   }
 
   startAlbumSession() {
-    this.http.get(`${environment.SERVER_ADDRESS}/start-album-session`).subscribe();
+    this.http.get(`${environment.SERVER_ADDRESS}/start-album-session`, {}, {});
   }
 
   stopAlbumSession() {
-    this.http.get(`${environment.SERVER_ADDRESS}/stop-album-session`).subscribe();
+    this.http.get(`${environment.SERVER_ADDRESS}/stop-album-session`, {}, {});
   }
 
   applyRandomFilter() {
     const randomFilterName = this.filterNames[Math.floor(Math.random() * this.filterNames.length)];
-    this.http.get(`${environment.SERVER_ADDRESS}/apply-filter/${randomFilterName}`).subscribe();
+    this.http.get(`${environment.SERVER_ADDRESS}/apply-filter/${randomFilterName}`, {}, {});
   }
 
   applyFilter() {
-    this.http.get(`${environment.SERVER_ADDRESS}/apply-filter/${this.currentFilterName}`).subscribe();
+    this.http.get(`${environment.SERVER_ADDRESS}/apply-filter/${this.currentFilterName}`, {}, {});
   }
 
   updateFilter(fiterName) {
