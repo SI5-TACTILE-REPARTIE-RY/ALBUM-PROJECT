@@ -8,9 +8,9 @@ import { WsService } from '../services/ws.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  
-  public users: number = 0;
-  public albumSessionStarted: boolean = false;
+
+  public users = 0;
+  public albumSessionStarted = false;
   public photoSrc: string = null;
 
   constructor(private wsService: WsService, private http: HttpClient) { }

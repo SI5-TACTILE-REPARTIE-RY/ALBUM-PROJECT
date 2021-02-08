@@ -1,0 +1,31 @@
+/* Sets the containers height and width */
+.base-progress {
+  height: 100%;
+}
+
+/* Removes SVG styling that would hide the time label */
+.base-progress__container {
+  fill: lightgray;
+  stroke: none;
+}
+
+.base-progress__progression {
+  fill: currentColor;
+  transform-origin: top;
+  transition: 1s linear all;
+  /*transform: scale(-2,2);*/
+}
+
+.base-progress__progression.green {
+  fill: rgb(65, 184, 131);
+}
+
+.base-progress__progression.orange {
+  fill: orange;
+}
+
+.base-progress__progression.red {
+  fill: orangered;
+}
+
+

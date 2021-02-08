@@ -1,0 +1,26 @@
+<div class="base-progress">
+  <svg class="base-progress__svg" height="100%" width="50" xmlns="http://www.w3.org/2000/svg">
+    <g class="base-progress__rect">
+      <mask id="mask">
+        <rect
+          fill="white"
+          height="100%"
+          width="100%"
+          rx="20"
+          ry="20" />
+      </mask>
+      <rect
+        id="base-progress-container"
+        class="base-progress__container"
+        height="100%"
+        width="100%"
+        mask="url(#mask)" />
+      <rect
+        id="base-progress-progression"
+        class="base-progress__progression {{remainingPathColor}}"
+        height="100%"
+        width="100%"
+        mask="url(#mask)"/>
+    </g>
+  </svg>
+</div>
