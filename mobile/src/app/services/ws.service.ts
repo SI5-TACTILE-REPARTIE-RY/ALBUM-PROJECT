@@ -18,8 +18,15 @@ export class WsService {
     return this.socket.fromEvent('album-session-started');
   }
 
+  albumSessionStoppedEvent() {
+    return this.socket.fromEvent('album-session-stopped');
+  }
+
   usersEvent(){
     return this.socket.fromEvent('users');
   }
 
+  filterAppliedEvent(){
+    return this.socket.fromEvent('filter-applied');
+  }
 }

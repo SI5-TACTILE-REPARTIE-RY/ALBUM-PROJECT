@@ -6,17 +6,41 @@
 
 <ion-content>
 
-	<ion-card>
-		<ion-card-content>
-			There are currently <strong>{{users}}</strong> users online.
-		</ion-card-content>
-	</ion-card>
+	<ion-grid>
+		<ion-row class="ion-justify-content-center">
+			<ion-card>
+				<ion-card-content>
+					There are currently <strong>{{users}}</strong> users online.
+				</ion-card-content>
+			</ion-card>
 
-	<ion-button (click)="startAlbumSession()">
-		Start album session
-	</ion-button>
+			<ion-button *ngIf="!albumSessionStarted" (click)="startAlbumSession()">
+				Start album session
+			</ion-button>
 
-	<ion-img *ngIf="photoSrc" [src]="photoSrc"></ion-img>
+			<ion-button *ngIf="albumSessionStarted" (click)="stopAlbumSession()">
+				Stop album session
+			</ion-button>
+
+			<img [ngClass]="{'visibility': currentFilterApplied ? 'visible' : 'hidden'}" *ngIf="photoSrc && albumSessionStarted"
+				(load)="imageLoaded()" alt="Album Image" crossOrigin="Anonymous" #albumImage />
+
+		</ion-row>
+
+		<ion-row *ngIf="albumSessionStarted">
+
+			<ion-button (click)="applyRandomFilter()">
+				Apply a random filter
+			</ion-button>
+
+			<ion-select value="notifications" interface="popover" [(ngModel)]="currentFilterName" (ionChange)="applyFilter()">
+				<ion-select-option value="noFilter">No filter</ion-select-option>
+				<ion-select-option *ngFor="let filter of filterNames" [value]="filter">{{filter}}</ion-select-option>
+			</ion-select>
+
+		</ion-row>
+
+	</ion-grid>
 
 	<app-accelerometer></app-accelerometer>
 
