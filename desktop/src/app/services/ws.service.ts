@@ -6,11 +6,9 @@ import { Socket } from 'ngx-socket-io';
 })
 export class WsService {
 
-  constructor(private socket: Socket) { 
+  constructor(private socket: Socket) {}
 
-  }
-
-  sendWsMessage(message){
+  sendWsMessage(message): void {
     this.socket.emit('message', message);
   }
 
@@ -18,7 +16,7 @@ export class WsService {
     return this.socket.fromEvent('album-session-started');
   }
 
-  usersEvent(){
+  usersEvent() {
     return this.socket.fromEvent('users');
   }
 

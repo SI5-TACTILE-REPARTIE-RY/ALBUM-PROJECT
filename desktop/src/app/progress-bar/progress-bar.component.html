@@ -1,6 +1,6 @@
-<div class="base-progress">
-  <svg class="base-progress__svg" height="100%" width="50" xmlns="http://www.w3.org/2000/svg">
-    <g class="base-progress__rect">
+<div class="container">
+  <svg class="svg" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+    <g class="group">
       <mask id="mask">
         <rect
           fill="white"
@@ -10,15 +10,15 @@
           ry="20" />
       </mask>
       <rect
-        id="base-progress-container"
-        class="base-progress__container"
+        #background
+        class="background"
         height="100%"
         width="100%"
         mask="url(#mask)" />
       <rect
-        id="base-progress-progression"
-        class="base-progress__progression {{remainingPathColor}}"
-        height="100%"
+        #progression
+        class="progression {{remainingPathColor}}"
+        height="1%"
         width="100%"
         mask="url(#mask)"/>
     </g>
