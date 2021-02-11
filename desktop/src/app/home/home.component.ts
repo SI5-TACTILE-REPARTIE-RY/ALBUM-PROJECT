@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
   photoKept: boolean = false;
   photoKeptMessageAnimation: string = 'none';
   photoNotKeptMessageAnimation: string = 'none';
+  displayShakeBar: boolean = true;
 
   constructor(private wsService: WsService, private httpWeb: HttpClient) { }
 
@@ -122,11 +123,13 @@ export class HomeComponent implements OnInit {
       setTimeout(() => this.photoKeptMessageAnimation = 'visible');
       setTimeout(() => this.photoKeptMessageAnimation = 'hidden', 5000);
       setTimeout(() => this.photoKeptMessageAnimation = 'none', 6000);
+      setTimeout(() => this.displayShakeBar = false, 6000);
     } else {
       this.photoNotKeptMessageAnimation = 'hidden';
       setTimeout(() => this.photoNotKeptMessageAnimation = 'visible');
       setTimeout(() => this.photoNotKeptMessageAnimation = 'hidden', 5000);
       setTimeout(() => this.photoNotKeptMessageAnimation = 'none', 6000);
+      setTimeout(() => this.displayShakeBar = false, 6000);
       setTimeout(() => this.httpWeb.get(`${environment.SERVER_ADDRESS}/vote-finished?photoKept=${photoKept}`).subscribe(), 6000);
     }
   }

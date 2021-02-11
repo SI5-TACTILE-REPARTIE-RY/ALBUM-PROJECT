@@ -6,7 +6,7 @@
     <img [ngClass]="{'visibility': currentFilterApplied ? 'visible' : 'hidden'}"
          *ngIf="photoSrc && albumSessionStarted"
         (load)="imageLoaded()" alt="Album Image" crossOrigin="Anonymous" #albumImage id="currentPhoto" />
-    <app-shake-bar (photoKept)="voteFinished($event)" *ngIf="!photoKept"></app-shake-bar>
+    <app-shake-bar (photoKept)="voteFinished($event)" *ngIf="displayShakeBar"></app-shake-bar>
 </ng-container>
 
 <div class="photo-kept" [@visibleHidden]="photoKeptMessageAnimation">
