@@ -1,4 +1,4 @@
-import { Param } from '@nestjs/common';
+import { Param, Query } from '@nestjs/common';
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CurrentSession, Session } from './session';
@@ -25,15 +25,21 @@ export class AppController {
     this.appService.startAlbumSession();
   }
 
-  @Get('stop-album-session')
+  @Get('reset-album-session')
   stopAlbumSession(): void {
-    console.log('REST :: GET :: STOP ALBUM SESSION');
-    this.appService.stopAlbumSession();
+    console.log('REST :: GET :: RESET ALBUM SESSION');
+    this.appService.resetAlbumSession();
   }
 
   @Get('apply-filter/:filterName')
   applyFilter(@Param('filterName') filterName: string): void {
     console.log(`REST :: GET :: APPLY FILTER :: ${filterName}`);
     this.appService.applyFilter(filterName);
+  }
+
+  @Get('vote-finished')
+  voteFinished(@Query('photoKept') photoKept: boolean): void {
+    console.log(`REST :: GET :: VOTE FINISHED :: ${photoKept}`);
+    this.appService.voteFinished(photoKept);
   }
 }

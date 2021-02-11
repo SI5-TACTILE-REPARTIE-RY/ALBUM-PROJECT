@@ -16,16 +16,20 @@ export class WsService {
     return this.socket.fromEvent('album-session-started');
   }
 
-  albumSessionStoppedEvent() {
-    return this.socket.fromEvent('album-session-stopped');
+  albumSessionResetEvent() {
+    return this.socket.fromEvent('album-session-reset');
   }
 
-  usersEvent(){
+  usersEvent() {
     return this.socket.fromEvent('users');
   }
 
-  filterAppliedEvent(){
+  filterAppliedEvent() {
     return this.socket.fromEvent('filter-applied');
+  }
+
+  voteFinishedEvent() {
+    return this.socket.fromEvent('vote-finished');
   }
 
   sendGoodShake() {

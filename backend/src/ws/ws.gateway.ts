@@ -46,13 +46,18 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit('album-session-started', photoSrc);
   }
 
-  async albumSessionStopped() {
-    console.log(`GATEWAY :: EMIT :: STOP ALBUM SESSION`);
-    this.server.emit('album-session-stopped');
+  async albumSessionReset() {
+    console.log(`GATEWAY :: EMIT :: ALBUM SESSION RESET`);
+    this.server.emit('album-session-reset', CurrentSession);
   }
 
   async filterApplied(filterName: string) {
     console.log(`GATEWAY :: EMIT :: APPLY FILTER :: ${filterName}`);
     this.server.emit('filter-applied', filterName);
+  }
+
+  async voteFinished(photoKept: boolean) {
+    console.log(`GATEWAY :: EMIT :: VOTE FINISHED :: ${photoKept}`);
+    this.server.emit('vote-finished', photoKept);
   }
 }

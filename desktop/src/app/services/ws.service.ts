@@ -17,8 +17,8 @@ export class WsService {
     return this.socket.fromEvent('album-session-started');
   }
 
-  albumSessionStoppedEvent() {
-    return this.socket.fromEvent('album-session-stopped');
+  albumSessionResetEvent() {
+    return this.socket.fromEvent('album-session-reset');
   }
 
   usersEvent(): Observable<any> {

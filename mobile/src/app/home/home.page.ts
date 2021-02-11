@@ -32,6 +32,7 @@ export class HomePage implements AfterViewInit {
   public currentFilterName = 'noFilter';
   public currentFilterApplied = true;
   public filterNames: string[] = FilterNames;
+  public photoKept: boolean;
 
   /* ------------- CONFIG ------------- */
 
@@ -97,9 +98,10 @@ export class HomePage implements AfterViewInit {
       this.updatePhotoSrc(environment.SERVER_ADDRESS + '/' + photoName);
     });
 
-    this.wsService.albumSessionStoppedEvent().subscribe(() => {
-      this.albumSessionStarted = false;
-      this.currentFilterApplied = false;
+    this.wsService.albumSessionResetEvent().subscribe(() => {
+      this.httpWeb.get(`${environment.SERVER_ADDRESS}/session`).subscribe((session: Session) => {
+        this.setSession(session);
+      });
     });
 
     this.wsService.usersEvent().subscribe((users: number) => {
@@ -111,9 +113,14 @@ export class HomePage implements AfterViewInit {
       this.refreshImage();
     });
 
+    this.wsService.voteFinishedEvent().subscribe(async (photoKept: boolean) => {
+      this.photoKept = photoKept;
+    });
+
   }
 
   setSession(session: Session) {
+    this.photoKept = session.photoKept;
     this.users = session.users;
     this.albumSessionStarted = session.started;
     this.updateFilter(session.currentFilterName);
@@ -193,11 +200,11 @@ export class HomePage implements AfterViewInit {
     }
   }
 
-  stopAlbumSession() {
+  resetAlbumSession() {
     if (this.platform.is('cordova')) {
-      this.httpMobile.get(`${environment.SERVER_ADDRESS}/stop-album-session`, {}, {});
+      this.httpMobile.get(`${environment.SERVER_ADDRESS}/reset-album-session`, {}, {});
     } else {
-      this.httpWeb.get(`${environment.SERVER_ADDRESS}/stop-album-session`).subscribe();
+      this.httpWeb.get(`${environment.SERVER_ADDRESS}/reset-album-session`).subscribe();
     }
   }
 

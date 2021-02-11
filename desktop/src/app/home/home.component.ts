@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   public photoSrc: string = null;
   public currentFilterName: string = "noFilter";
   public currentFilterApplied: boolean = true;
+  photoKept: boolean = false;
 
   constructor(private wsService: WsService, private httpWeb: HttpClient) { }
 
@@ -31,9 +32,10 @@ export class HomeComponent implements OnInit {
       this.updatePhotoSrc(environment.SERVER_ADDRESS + '/' + photoName);
     });
 
-    this.wsService.albumSessionStoppedEvent().subscribe(() => {
-      this.albumSessionStarted = false;
-      this.currentFilterApplied = false;
+    this.wsService.albumSessionResetEvent().subscribe(() => {
+      this.httpWeb.get(`${environment.SERVER_ADDRESS}/session`).subscribe((session: Session) => {
+        this.setSession(session);
+      });
     });
 
     this.wsService.usersEvent().subscribe((users: number) => {
@@ -49,6 +51,7 @@ export class HomeComponent implements OnInit {
 
 
   setSession(session: Session) {
+    this.photoKept = session.photoKept;
     this.users = session.users;
     this.albumSessionStarted = session.started;
     this.updateFilter(session.currentFilterName);
@@ -88,4 +91,8 @@ export class HomeComponent implements OnInit {
     setTimeout(() => this.albumImage.nativeElement.src = src || this.photoSrc);
   }
 
+  voteFinished(photoKept: boolean) {
+    this.photoKept = photoKept;
+    this.httpWeb.get(`${environment.SERVER_ADDRESS}/vote-finished?photoKept=${photoKept}`).subscribe();
+  }
 }

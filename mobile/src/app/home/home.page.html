@@ -17,8 +17,8 @@
 				Start album session
 			</ion-button>
 
-			<ion-button *ngIf="albumSessionStarted" (click)="stopAlbumSession()">
-				Stop album session
+			<ion-button *ngIf="albumSessionStarted" (click)="resetAlbumSession()">
+				Reset album session
 			</ion-button>
 		</ion-row>
 	</ion-grid>
@@ -29,7 +29,7 @@
 				(load)="imageLoaded()" alt="Album Image" crossOrigin="Anonymous" #albumImage />
 		</ion-row>
 
-		<ion-row class="ion-justify-content-center" *ngIf="albumSessionStarted">
+		<ion-row class="ion-justify-content-center" *ngIf="albumSessionStarted && photoKept">
 
 			<ion-button (click)="applyRandomFilter()">
 				Apply a random filter
@@ -44,7 +44,7 @@
 
 	</ion-grid>
 
-	<ion-grid id="toggle">
+	<ion-grid id="toggle" *ngIf="albumSessionStarted && !photoKept">
 		<ion-row>
 			<ion-col class="ion-text-end">
 				<ion-icon name="thumbs-up" size="large" [ngStyle]="{'color': thumbsUpColor}"></ion-icon>

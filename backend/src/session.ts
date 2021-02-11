@@ -3,6 +3,7 @@ export const CurrentSession: Session = {
   started: false,
   currentPhotoName: null,
   currentFilterName: 'noFilter',
+  photoKept: null,
 };
 
 export interface Session {
@@ -10,4 +11,5 @@ export interface Session {
   started: boolean;
   currentPhotoName: string;
   currentFilterName: string;
+  photoKept: boolean;
 }

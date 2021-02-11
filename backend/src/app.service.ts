@@ -16,13 +16,25 @@ export class AppService {
     this.wsGateway.albumSessionStarted(CurrentSession.currentPhotoName);
   }
 
-  stopAlbumSession(): void {
+  resetAlbumSession(): void {
     CurrentSession.started = false;
-    this.wsGateway.albumSessionStopped();
+    CurrentSession.currentPhotoName = null;
+    CurrentSession.currentFilterName = 'noFilter';
+    CurrentSession.photoKept = null;
+    this.wsGateway.albumSessionReset();
   }
 
   applyFilter(filterName: string): void {
     CurrentSession.currentFilterName = filterName;
     this.wsGateway.filterApplied(filterName);
+  }
+
+  voteFinished(photoKept: boolean): void {
+    CurrentSession.photoKept = photoKept;
+    if (photoKept === true) {
+      this.wsGateway.voteFinished(photoKept);
+    } else {
+      this.resetAlbumSession();
+    }
   }
 }

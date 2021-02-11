@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {Socket} from 'ngx-socket-io';
 import {GameService} from '../services/game.service';
 
@@ -8,6 +8,9 @@ import {GameService} from '../services/game.service';
   styleUrls: ['./shake-bar.component.css']
 })
 export class ShakeBarComponent implements OnInit {
+  goodResult: number;
+  badResult: number;
+  @Output() photoKept = new EventEmitter<boolean>();
 
   constructor(private socket: Socket, private gameService: GameService) { }
 
@@ -16,10 +19,16 @@ export class ShakeBarComponent implements OnInit {
   }
 
   getBad(result: number): void {
-    console.log('BAD = ', result);
+    this.badResult = result;
+    if (this.badResult) {
+      this.goodResult > this.badResult ? this.photoKept.emit(true) : this.photoKept.emit(false);
+    }
   }
 
   getGood(result: number): void {
-    console.log('Good = ', result);
+    this.goodResult = result;
+    if (this.goodResult) {
+      this.goodResult > this.badResult ? this.photoKept.emit(true) : this.photoKept.emit(false);
+    }
   }
 }
