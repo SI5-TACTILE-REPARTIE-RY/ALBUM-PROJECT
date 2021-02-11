@@ -15,7 +15,7 @@ export class AppController {
 
   @Get('session')
   getSession(): Session {
-    console.log(`REST :: GET :: SESSION :: ${CurrentSession}`);
+    console.log(`REST :: GET :: SESSION :: ${JSON.stringify(CurrentSession)}`);
     return CurrentSession;
   }
 
