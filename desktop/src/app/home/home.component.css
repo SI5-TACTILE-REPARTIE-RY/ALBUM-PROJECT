@@ -1,9 +1,0 @@
-#currentPhoto {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  height: 100%;
-  /* bring your own prefixes */
-  transform: translate(-50%, 0);
-}

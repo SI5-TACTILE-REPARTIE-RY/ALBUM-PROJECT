@@ -8,7 +8,7 @@ import { Session } from './session';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   @ViewChild('albumImage') albumImage: ElementRef;
@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit {
   }
 
   startAlbumSession() {
-    this.httpWeb.get(`${environment.SERVER_ADDRESS}/start-album-session`).subscribe();
+    setTimeout(() => this.httpWeb.get(`${environment.SERVER_ADDRESS}/start-album-session`).subscribe(), 500);
   }
 
   stopAlbumSession() {

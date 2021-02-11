@@ -1,6 +1,5 @@
 <ng-container *ngIf="!albumSessionStarted">
-    There are currently <strong>{{users}}</strong> users online.
-    <button (click)="startAlbumSession()">Start album session</button>
+    <button class="button3d" (click)="startAlbumSession()">Start album session</button>
 </ng-container>
 
 <ng-container *ngIf="albumSessionStarted && photoSrc">
