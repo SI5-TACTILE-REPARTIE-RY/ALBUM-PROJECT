@@ -25,22 +25,34 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('message')
   async onWsMessage(client, message) {
-    console.log(`GATEWAY :: MESSAGE EVENT :: ${message}`);
+    console.log(`GATEWAY :: RECIEVE :: MESSAGE EVENT :: ${message}`);
     client.broadcast.emit('message', message);
   }
 
+  @SubscribeMessage('good')
+  async onGoodShake() {
+    console.log(`GATEWAY :: RECEIVE :: GOOD SHAKE`);
+    this.server.emit('good');
+  }
+
+  @SubscribeMessage('bad')
+  async onBadShake() {
+    console.log(`GATEWAY :: RECEIVE :: BAD SHAKE`);
+    this.server.emit('bad');
+  }
+
   async albumSessionStarted(photoSrc: string) {
-    console.log(`GATEWAY :: START ALBUM SESSION`);
+    console.log(`GATEWAY :: EMIT :: START ALBUM SESSION`);
     this.server.emit('album-session-started', photoSrc);
   }
 
   async albumSessionStopped() {
-    console.log(`GATEWAY :: STOP ALBUM SESSION`);
+    console.log(`GATEWAY :: EMIT :: STOP ALBUM SESSION`);
     this.server.emit('album-session-stopped');
   }
 
   async filterApplied(filterName: string) {
-    console.log(`GATEWAY :: APPLY FILTER :: ${filterName}`);
+    console.log(`GATEWAY :: EMIT :: APPLY FILTER :: ${filterName}`);
     this.server.emit('filter-applied', filterName);
   }
 }

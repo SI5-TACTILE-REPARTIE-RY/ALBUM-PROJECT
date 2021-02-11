@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {GameService} from "../services/game.service";
 
 @Component({
   selector: 'app-timer',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./timer.component.css']
 })
 export class TimerComponent implements OnInit {
+
+  @Input() time: number;
 
   FULL_DASH_ARRAY = 283;
   WARNING_THRESHOLD = 10;
@@ -35,10 +38,15 @@ export class TimerComponent implements OnInit {
   };
   remainingPathColor = this.COLOR_CODES.info.color;
 
-  constructor() { }
+  constructor(private gameService: GameService) { }
 
   ngOnInit(): void {
-    this.startInterval();
+    if (this.time) { this.TIME_LIMIT = this.time; }
+    this.gameService.running$.subscribe(next => {
+      if (next) {
+        this.startInterval();
+      }
+    });
   }
 
   formatTimeLeft(time): string {
@@ -59,6 +67,8 @@ export class TimerComponent implements OnInit {
 
   onTimesUp(): void {
     clearInterval(this.timerInterval);
+    this.gameService.endGame();
+    this.ngOnInit();
   }
 
   startInterval(): void {

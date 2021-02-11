@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class WsService {
     this.socket.emit('message', message);
   }
 
-  albumSessionStartedEvent() {
+  albumSessionStartedEvent(): Observable<any> {
     return this.socket.fromEvent('album-session-started');
   }
 
@@ -20,12 +21,16 @@ export class WsService {
     return this.socket.fromEvent('album-session-stopped');
   }
 
-  usersEvent(){
+  usersEvent(): Observable<any> {
     return this.socket.fromEvent('users');
   }
 
-  filterAppliedEvent(){
-    return this.socket.fromEvent('filter-applied');
+  goodShakeEvent(): Observable<any> {
+    return this.socket.fromEvent('good');
+  }
+
+  badShakeEvent(): Observable<any> {
+    return this.socket.fromEvent('bad');
   }
 
 }

@@ -27,4 +27,12 @@ export class WsService {
   filterAppliedEvent(){
     return this.socket.fromEvent('filter-applied');
   }
+
+  sendGoodShake() {
+    this.socket.emit('good');
+  }
+
+  sendBadShake() {
+    this.socket.emit('bad');
+  }
 }
