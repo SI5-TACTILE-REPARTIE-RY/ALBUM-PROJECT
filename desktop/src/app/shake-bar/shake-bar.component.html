@@ -1,5 +1,5 @@
 <div class="container">
-  <app-progress-bar id="right_bar"></app-progress-bar>
+  <app-progress-bar id="right_bar" [observe]="'bad'" (result)="getBad($event)"></app-progress-bar>
   <app-timer id="timer"></app-timer>
-  <app-progress-bar id="left_bar"></app-progress-bar>
+  <app-progress-bar id="left_bar" [observe]="'good'" (result)="getGood($event)"></app-progress-bar>
 </div>

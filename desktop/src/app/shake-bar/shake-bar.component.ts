@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Socket} from 'ngx-socket-io';
+import {GameService} from '../services/game.service';
 
 @Component({
   selector: 'app-shake-bar',
@@ -8,32 +9,17 @@ import {Socket} from 'ngx-socket-io';
 })
 export class ShakeBarComponent implements OnInit {
 
-  ctr = 0;
-
-  constructor(private socket: Socket) {
-    this.socket.fromEvent('shake').subscribe(() => {
-      console.log('fromEvent received!');
-      this.increment();
-    });
-    this.socket.on('shake', () => {
-      console.log('on received');
-    });
-  }
+  constructor(private socket: Socket, private gameService: GameService) { }
 
   ngOnInit(): void {
-    // setInterval(() => {
-    //   this.decrement();
-    // }, 1000);
+    this.gameService.startGame();
   }
 
-  private increment(): void {
-    ++this.ctr;
+  getBad(result: number): void {
+    console.log('BAD = ', result);
   }
 
-  private decrement(): void {
-    if (this.ctr > 0) {
-      --this.ctr;
-    }
+  getGood(result: number): void {
+    console.log('Good = ', result);
   }
-
 }

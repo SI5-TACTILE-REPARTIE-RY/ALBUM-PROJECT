@@ -25,3 +25,13 @@
   left: 94%;
   padding: 10px;
 }
+
+#timer {
+  position: absolute;
+  width: 10em;
+  height: 10em;
+  bottom: 0;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -10%);
+}
