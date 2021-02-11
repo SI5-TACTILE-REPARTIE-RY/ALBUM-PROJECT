@@ -4,6 +4,6 @@
 </ng-container>
 
 <ng-container *ngIf="albumSessionStarted && photoSrc">
-    <app-shake-bar></app-shake-bar>
     <img [src]="photoSrc" alt="Photo" id="photo"/>
+    <app-shake-bar></app-shake-bar>
 </ng-container>
