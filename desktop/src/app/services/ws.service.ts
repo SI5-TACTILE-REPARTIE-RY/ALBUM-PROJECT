@@ -25,6 +25,10 @@ export class WsService {
     return this.socket.fromEvent('users');
   }
 
+  filterAppliedEvent(): Observable<any> {
+    return this.socket.fromEvent('filter-applied');
+  }
+
   goodShakeEvent(): Observable<any> {
     return this.socket.fromEvent('good');
   }
