@@ -1,12 +1,21 @@
+// ANGULAR
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { WsService } from '../services/ws.service';
-import { applyPresetOnImage, presetsMapping } from 'instagram-filters';
-import { FilterNames } from './filter-names';
 import { environment } from 'src/environments/environment';
-import { Session } from './session';
-import { HTTP, HTTPResponse } from '@ionic-native/http/ngx';
 import { HttpClient } from '@angular/common/http';
 import { Platform } from '@ionic/angular';
+
+// NATIVE
+import {DeviceMotion, DeviceMotionAccelerationData} from '@ionic-native/device-motion/ngx';
+import { HTTP, HTTPResponse } from '@ionic-native/http/ngx';
+
+// SERVICES
+import { WsService } from '../services/ws.service';
+
+// CUSTOMS
+import { applyPresetOnImage, presetsMapping } from 'instagram-filters';
+import { FilterNames } from './filter-names';
+import { Session } from './session';
+
 
 @Component({
   selector: 'app-home',
@@ -14,24 +23,71 @@ import { Platform } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements AfterViewInit {
+
   @ViewChild('albumImage') albumImage: ElementRef;
 
-  public users: number = 0;
-  public albumSessionStarted: boolean = false;
+  public users = 0;
+  public albumSessionStarted = false;
   public photoSrc: string = null;
-  public currentFilterName: string = "noFilter";
-  public currentFilterApplied: boolean = true;
+  public currentFilterName = 'noFilter';
+  public currentFilterApplied = true;
   public filterNames: string[] = FilterNames;
 
-  constructor(private wsService: WsService, private httpMobile: HTTP, private platform: Platform, private httpWeb: HttpClient) { }
+  /* ------------- CONFIG ------------- */
+
+  CONFIG = {
+    style: {
+      good: {
+        color: 'lightgreen'
+      },
+      bad: {
+        color: 'orangered'
+      }
+    },
+    motion: {
+      watch: {
+        offset: 10
+      }
+    }
+  };
+
+  /* ------------- NgModels ------------- */
+
+  // TOGGLE
+  toggle = false;
+
+  /* ------------- NgStyles ------------- */
+
+  // ION-CONTENT BORDER-COLOR
+  ionContentBorderDefault = 'white';
+  ionContentBorder = 'white';
+
+  // THUMBS-UP COLOR
+  thumbsUpColorDefault = 'grey';
+  thumbsUpColor = 'lightgreen';
+
+  // THUMBS-DOWN COLOR
+  thumbsDownColorDefault = 'grey';
+  thumbsDownColor = 'grey';
+
+  /* ------------- CONSTRUCTOR ------------- */
+
+  constructor(
+      private deviceMotion: DeviceMotion,
+      private wsService: WsService,
+      private httpMobile: HTTP,
+      private platform: Platform,
+      private httpWeb: HttpClient
+  ) { }
 
   ngAfterViewInit() {
+    this.startWatchingMotion();
     if (this.platform.is('cordova')) {
-      this.httpMobile.get(`${environment.SERVER_ADDRESS}:3000/session`, {}, {}).then((result: HTTPResponse) => {
+      this.httpMobile.get(`${environment.SERVER_ADDRESS}/session`, {}, {}).then((result: HTTPResponse) => {
         this.setSession(result.data);
       });
     } else {
-      this.httpWeb.get(`${environment.SERVER_ADDRESS}:3000/session`).subscribe((session: Session) => {
+      this.httpWeb.get(`${environment.SERVER_ADDRESS}/session`).subscribe((session: Session) => {
         this.setSession(session);
       });
     }
@@ -64,10 +120,67 @@ export class HomePage implements AfterViewInit {
     this.updatePhotoSrc(environment.SERVER_ADDRESS + '/' + session.currentPhotoName);
   }
 
+  /* ------------- DEVICE MOTION WATCHING BEHAVIOR ------------- */
+
+  startWatchingMotion(): void {
+    this.deviceMotion.watchAcceleration({ frequency: 100 }).subscribe((acceleration: DeviceMotionAccelerationData) => {
+      this.setBorderColor(acceleration);
+      this.emitShake(acceleration);
+    });
+  }
+
+  private setBorderColor(acceleration: DeviceMotionAccelerationData): void {
+    const { style } = this.CONFIG;
+    if (this.detectShake(acceleration)) {
+      if (this.toggle) {
+        this.ionContentBorder = style.bad.color;
+      } else {
+        this.ionContentBorder = style.good.color;
+      }
+    } else {
+      this.ionContentBorder = this.ionContentBorderDefault;
+    }
+  }
+
+  private emitShake(acceleration: DeviceMotionAccelerationData): void {
+    if (this.detectShake(acceleration)) {
+      if (this.toggle) {
+        this.wsService.sendBadShake();
+      } else {
+        this.wsService.sendGoodShake();
+      }
+    }
+  }
+
+  private detectShake(acceleration: DeviceMotionAccelerationData): boolean {
+    const { watch } = this.CONFIG.motion;
+    if ((acceleration.x >= watch.offset || acceleration.x <= -watch.offset) ||
+        (acceleration.y >= watch.offset || acceleration.y <= -watch.offset)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /* ------------- TOGGLE BEHAVIOR ------------- */
+
+  toggleChange(): void {
+    const { style } = this.CONFIG;
+    if (this.toggle) {
+      this.thumbsUpColor = this.thumbsUpColorDefault;
+      this.thumbsDownColor = style.bad.color;
+    } else {
+      this.thumbsDownColor = this.thumbsDownColorDefault;
+      this.thumbsUpColor = style.good.color;
+    }
+  }
+
+  /* ------------- // ------------- */
+
   async imageLoaded() {
     if (!this.currentFilterApplied) {
       const blob = await applyPresetOnImage(this.albumImage.nativeElement, presetsMapping[this.currentFilterName]());
-      this.refreshImage(URL.createObjectURL(blob))
+      this.refreshImage(URL.createObjectURL(blob));
       this.currentFilterApplied = true;
     }
   }

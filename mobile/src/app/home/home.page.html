@@ -1,12 +1,11 @@
-<ion-header no-border>
+<ion-header>
 	<ion-toolbar color="tertiary">
-		<ion-title>Album app</ion-title>
+		<ion-title>Shake Your Album !</ion-title>
 	</ion-toolbar>
 </ion-header>
 
-<ion-content>
-
-	<ion-grid>
+<ion-content [ngStyle]="{'border-color': ionContentBorder}">
+	<ion-grid id="header">
 		<ion-row class="ion-justify-content-center">
 			<ion-card>
 				<ion-card-content>
@@ -21,13 +20,16 @@
 			<ion-button *ngIf="albumSessionStarted" (click)="stopAlbumSession()">
 				Stop album session
 			</ion-button>
-
-			<img [ngClass]="{'visibility': currentFilterApplied ? 'visible' : 'hidden'}" *ngIf="photoSrc && albumSessionStarted"
+		</ion-row>
+	</ion-grid>
+	<ion-grid id="photo">
+		<ion-row class="ion-justify-content-center">
+			<img [ngClass]="{'visibility': currentFilterApplied ? 'visible' : 'hidden'}"
+				 *ngIf="photoSrc && albumSessionStarted"
 				(load)="imageLoaded()" alt="Album Image" crossOrigin="Anonymous" #albumImage />
-
 		</ion-row>
 
-		<ion-row *ngIf="albumSessionStarted">
+		<ion-row class="ion-justify-content-center" *ngIf="albumSessionStarted">
 
 			<ion-button (click)="applyRandomFilter()">
 				Apply a random filter
@@ -42,6 +44,18 @@
 
 	</ion-grid>
 
-	<app-accelerometer></app-accelerometer>
+	<ion-grid id="toggle">
+		<ion-row>
+			<ion-col class="ion-text-end">
+				<ion-icon name="thumbs-up" size="large" [ngStyle]="{'color': thumbsUpColor}"></ion-icon>
+			</ion-col>
+			<ion-col size="auto" class="ion-text-center">
+				<ion-toggle [(ngModel)]="toggle" (ionChange)="toggleChange()"></ion-toggle>
+			</ion-col>
+			<ion-col class="ion-text-start">
+				<ion-icon name="thumbs-down" size="large" [ngStyle]="{'color': thumbsDownColor}"></ion-icon>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
 
 </ion-content>
