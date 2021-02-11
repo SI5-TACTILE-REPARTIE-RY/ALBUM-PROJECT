@@ -22,28 +22,28 @@ export class HomeComponent implements OnInit {
   constructor(private wsService: WsService, private httpWeb: HttpClient) { }
 
   ngOnInit() {
-    this.httpWeb.get(`${environment.SERVER_ADDRESS}:3000/session`).subscribe((session: Session) => {
+    this.httpWeb.get(`${environment.SERVER_ADDRESS}/session`).subscribe((session: Session) => {
       this.setSession(session);
     });
 
-  this.wsService.albumSessionStartedEvent().subscribe((photoName: string) => {
-    this.albumSessionStarted = true;
-    this.updatePhotoSrc(environment.SERVER_ADDRESS + '/' + photoName);
-  });
+    this.wsService.albumSessionStartedEvent().subscribe((photoName: string) => {
+      this.albumSessionStarted = true;
+      this.updatePhotoSrc(environment.SERVER_ADDRESS + '/' + photoName);
+    });
 
-  this.wsService.albumSessionStoppedEvent().subscribe(() => {
-    this.albumSessionStarted = false;
-    this.currentFilterApplied = false;
-  });
+    this.wsService.albumSessionStoppedEvent().subscribe(() => {
+      this.albumSessionStarted = false;
+      this.currentFilterApplied = false;
+    });
 
-  this.wsService.usersEvent().subscribe((users: number) => {
-    this.users = users;
-  });
+    this.wsService.usersEvent().subscribe((users: number) => {
+      this.users = users;
+    });
 
-  this.wsService.filterAppliedEvent().subscribe(async (filterName: string) => {
-    this.updateFilter(filterName);
-    this.refreshImage();
-  });
+    this.wsService.filterAppliedEvent().subscribe(async (filterName: string) => {
+      this.updateFilter(filterName);
+      this.refreshImage();
+    });
 
   }
 
@@ -64,11 +64,11 @@ export class HomeComponent implements OnInit {
   }
 
   startAlbumSession() {
-      this.httpWeb.get(`${environment.SERVER_ADDRESS}/start-album-session`).subscribe();
+    this.httpWeb.get(`${environment.SERVER_ADDRESS}/start-album-session`).subscribe();
   }
 
   stopAlbumSession() {
-      this.httpWeb.get(`${environment.SERVER_ADDRESS}/stop-album-session`).subscribe();
+    this.httpWeb.get(`${environment.SERVER_ADDRESS}/stop-album-session`).subscribe();
   }
 
   updateFilter(fiterName) {
@@ -84,6 +84,7 @@ export class HomeComponent implements OnInit {
   }
 
   refreshImage(src = null) {
+    console.log(this.photoSrc);
     setTimeout(() => this.albumImage.nativeElement.src = src || this.photoSrc);
   }
 

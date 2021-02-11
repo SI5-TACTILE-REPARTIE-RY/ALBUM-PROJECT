@@ -4,6 +4,8 @@
 </ng-container>
 
 <ng-container *ngIf="albumSessionStarted && photoSrc">
-    <img [src]="photoSrc" alt="Photo" id="photo"/>
+    <img [ngClass]="{'visibility': currentFilterApplied ? 'visible' : 'hidden'}"
+         *ngIf="photoSrc && albumSessionStarted"
+        (load)="imageLoaded()" alt="Album Image" crossOrigin="Anonymous" #albumImage id="currentPhoto" />
     <app-shake-bar></app-shake-bar>
 </ng-container>
