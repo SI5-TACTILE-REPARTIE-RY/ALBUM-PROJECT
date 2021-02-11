@@ -29,10 +29,10 @@ export class AppService {
     this.wsGateway.filterApplied(filterName);
   }
 
-  voteFinished(photoKept: boolean): void {
-    CurrentSession.photoKept = photoKept;
-    if (photoKept === true) {
-      this.wsGateway.voteFinished(photoKept);
+  voteFinished(photoKept: string): void {
+    CurrentSession.photoKept = photoKept === 'true';
+    if (CurrentSession.photoKept) {
+      this.wsGateway.voteFinished(CurrentSession.photoKept);
     } else {
       this.resetAlbumSession();
     }

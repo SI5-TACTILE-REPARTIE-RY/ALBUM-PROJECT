@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // COMPONENTS
 import { AppComponent } from './app.component';
@@ -28,7 +29,8 @@ const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
     BrowserModule,
     AppRoutingModule,
     SocketIoModule.forRoot(config),
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

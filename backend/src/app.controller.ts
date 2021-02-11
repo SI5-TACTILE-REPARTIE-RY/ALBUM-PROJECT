@@ -38,7 +38,7 @@ export class AppController {
   }
 
   @Get('vote-finished')
-  voteFinished(@Query('photoKept') photoKept: boolean): void {
+  voteFinished(@Query('photoKept') photoKept: string): void {
     console.log(`REST :: GET :: VOTE FINISHED :: ${photoKept}`);
     this.appService.voteFinished(photoKept);
   }

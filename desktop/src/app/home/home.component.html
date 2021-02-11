@@ -8,3 +8,10 @@
         (load)="imageLoaded()" alt="Album Image" crossOrigin="Anonymous" #albumImage id="currentPhoto" />
     <app-shake-bar (photoKept)="voteFinished($event)" *ngIf="!photoKept"></app-shake-bar>
 </ng-container>
+
+<div class="photo-kept" [@visibleHidden]="photoKeptMessageAnimation">
+    Photo gardée
+</div>
+<div class="photo-not-kept" [@visibleHidden]="photoNotKeptMessageAnimation">
+    Photo rejetée
+</div>
