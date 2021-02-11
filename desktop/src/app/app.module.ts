@@ -13,7 +13,8 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 
 // OTHERS
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
+import { environment } from 'src/environments/environment';
+const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
 
 @NgModule({
   declarations: [

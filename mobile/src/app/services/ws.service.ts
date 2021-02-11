@@ -6,9 +6,7 @@ import { Socket } from 'ngx-socket-io';
 })
 export class WsService {
 
-  constructor(private socket: Socket) { 
-
-  }
+  constructor(private socket: Socket) {}
 
   sendWsMessage(message){
     this.socket.emit('message', message);

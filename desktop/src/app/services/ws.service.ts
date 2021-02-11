@@ -8,7 +8,7 @@ export class WsService {
 
   constructor(private socket: Socket) {}
 
-  sendWsMessage(message): void {
+  sendWsMessage(message){
     this.socket.emit('message', message);
   }
 
@@ -16,8 +16,16 @@ export class WsService {
     return this.socket.fromEvent('album-session-started');
   }
 
-  usersEvent() {
+  albumSessionStoppedEvent() {
+    return this.socket.fromEvent('album-session-stopped');
+  }
+
+  usersEvent(){
     return this.socket.fromEvent('users');
+  }
+
+  filterAppliedEvent(){
+    return this.socket.fromEvent('filter-applied');
   }
 
 }
