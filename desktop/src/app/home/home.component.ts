@@ -123,7 +123,6 @@ export class HomeComponent implements OnInit {
       setTimeout(() => this.photoKeptMessageAnimation = 'hidden', 5000);
       setTimeout(() => this.photoKeptMessageAnimation = 'none', 6000);
       setTimeout(() => this.displayShakeBar = false, 6000);
-      setTimeout(() => this.displayShakeBar = true, 6100);
       setTimeout(() => this.httpWeb.get(`${environment.SERVER_ADDRESS}/vote-finished?photoKept=${photoKept}`).subscribe(), 6000);
     } else {
       this.photoNotKeptMessageAnimation = 'hidden';
