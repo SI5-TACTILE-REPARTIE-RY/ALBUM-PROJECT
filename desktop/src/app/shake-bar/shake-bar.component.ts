@@ -20,15 +20,19 @@ export class ShakeBarComponent implements OnInit {
 
   getBad(result: number): void {
     this.badResult = result;
-    if (this.goodResult) {
-      this.goodResult > this.badResult ? this.photoKept.emit(true) : this.photoKept.emit(false);
-    }
+    setTimeout(() => {
+      if (this.goodResult) {
+        this.goodResult > this.badResult ? this.photoKept.emit(true) : this.photoKept.emit(false);
+      }
+    }, 100);
   }
 
   getGood(result: number): void {
     this.goodResult = result;
-    if (this.badResult) {
-      this.goodResult > this.badResult ? this.photoKept.emit(true) : this.photoKept.emit(false);
-    }
+    setTimeout(() => {
+      if (this.badResult) {
+        this.goodResult > this.badResult ? this.photoKept.emit(true) : this.photoKept.emit(false);
+      }
+    }, 100);
   }
 }
