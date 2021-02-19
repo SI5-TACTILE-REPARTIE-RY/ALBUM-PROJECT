@@ -1,4 +1,3 @@
-import { environment } from '../../../environments/environment';
 import { Component, ElementRef, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { applyPresetOnImage, presetsMapping } from 'instagram-filters';
 
@@ -12,8 +11,7 @@ export class PhotoEditorComponent implements AfterViewInit {
 
   @Input() public photoSrc: string;
 
-  public albumSessionStarted = false;
-  public currentFilterApplied = true;
+  public currentFilterApplied;
   public currentFilterName = 'noFilter';
 
   constructor() { }
@@ -22,20 +20,25 @@ export class PhotoEditorComponent implements AfterViewInit {
     this.refreshImage();
   }
 
-  async imageLoaded() {
-    if (this.currentFilterName !== 'noFilter') {
+  async renderFilter() {
+    if (!this.currentFilterApplied) {
       const blob = await applyPresetOnImage(this.photo.nativeElement, presetsMapping[this.currentFilterName]());
       this.refreshImage(URL.createObjectURL(blob));
       this.currentFilterApplied = true;
     }
   }
 
-  onFilterApplied(filterName: string) {
+  async onFilterApplied(filterName: string) {
     this.currentFilterName = filterName;
-    this.refreshImage();
+    this.currentFilterApplied = filterName === 'noFilter';
+    if (this.currentFilterApplied) {
+      this.refreshImage();
+    } else {
+      this.renderFilter();
+    }
   }
 
   refreshImage(src = null) {
-    setTimeout(() => this.photo.nativeElement.src = src || this.photoSrc);
+    setTimeout((() => this.photo.nativeElement.src = src || this.photoSrc));
   }
 }

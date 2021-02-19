@@ -46,7 +46,11 @@ export class HomeComponent implements OnInit {
 
     this.wsService.filterAppliedEvent().subscribe(async (filterName: string) => {
       this.updateFilter(filterName);
-      this.refreshImage();
+      if (this.currentFilterApplied) {
+        this.refreshImage();
+      } else {
+        this.renderFilter();
+      }
     });
 
     this.voteSerive.photoKept$.subscribe(photoKept => {
@@ -64,7 +68,7 @@ export class HomeComponent implements OnInit {
     this.updatePhotoSrc(environment.SERVER_ADDRESS + '/' + session.currentPhotoName);
   }
 
-  async imageLoaded(): Promise<void> {
+  async renderFilter(): Promise<void> {
     if (!this.currentFilterApplied) {
       const blob = await applyPresetOnImage(this.albumImage.nativeElement, presetsMapping[this.currentFilterName]());
       this.refreshImage(URL.createObjectURL(blob));

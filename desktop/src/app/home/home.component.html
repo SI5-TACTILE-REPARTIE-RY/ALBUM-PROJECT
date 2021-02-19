@@ -5,7 +5,7 @@
 <ng-container *ngIf="albumSessionStarted && photoSrc">
     <img [ngClass]="{'visibility': currentFilterApplied ? 'visible' : 'hidden'}"
          *ngIf="photoSrc && albumSessionStarted"
-        (load)="imageLoaded()" alt="Album Image" crossOrigin="Anonymous" #albumImage id="currentPhoto" />
+        (load)="renderFilter()" alt="Album Image" crossOrigin="Anonymous" #albumImage id="currentPhoto" />
     <app-vote *ngIf="displayVote"></app-vote>
 </ng-container>
 
