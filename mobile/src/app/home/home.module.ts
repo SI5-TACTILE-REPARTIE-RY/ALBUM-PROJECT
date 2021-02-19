@@ -13,13 +13,15 @@ import { HttpService } from '../services/http.service';
 import { SessionService } from '../services/session.service';
 import { WsService } from '../services/ws.service';
 import {TestComponent} from "../test/test.component";
+import {ImageCropperModule} from 'ngx-image-cropper';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    ImageCropperModule
   ],
   declarations: [
     HomePage,

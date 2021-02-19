@@ -1,44 +1,43 @@
 import { Component, ElementRef, Input, ViewChild, AfterViewInit } from '@angular/core';
-import { applyPresetOnImage, presetsMapping } from 'instagram-filters';
+import {applyPresetOnImage, applyPresetOnImageURL, presetsMapping} from 'instagram-filters';
 
 @Component({
   selector: 'app-photo-editor',
   templateUrl: './photo-editor.component.html',
   styleUrls: ['./photo-editor.component.scss'],
 })
-export class PhotoEditorComponent implements AfterViewInit {
-  @ViewChild('photo') photo: ElementRef;
+export class PhotoEditorComponent {
+  @ViewChild('photoRef') photoRef: ElementRef;
 
   @Input() public photoSrc: string;
-
-  public currentFilterApplied;
   public currentFilterName = 'noFilter';
+  public photoFile: File;
 
   constructor() { }
 
-  ngAfterViewInit() {
-    this.refreshImage();
+  renderFilter() {
+    if (this.currentFilterName !== 'noFilter') {
+      const imgObj = new Image();
+      imgObj.onload = async () => {
+        const blob = await applyPresetOnImage(imgObj, presetsMapping[this.currentFilterName]());
+        this.photoFile = this.blobToFile(blob);
+      };
+      imgObj.crossOrigin = 'Anonymous';
+      imgObj.src = this.photoSrc;
+    } else {
+      this.photoFile = null;
+    }
   }
 
-  async renderFilter() {
-    if (!this.currentFilterApplied) {
-      const blob = await applyPresetOnImage(this.photo.nativeElement, presetsMapping[this.currentFilterName]());
-      this.refreshImage(URL.createObjectURL(blob));
-      this.currentFilterApplied = true;
-    }
+  public blobToFile(blob: Blob): File {
+    const b: any = blob;
+    b.lastModifiedDate = new Date();
+    b.name = 'photo';
+    return blob as File;
   }
 
   async onFilterApplied(filterName: string) {
     this.currentFilterName = filterName;
-    this.currentFilterApplied = filterName === 'noFilter';
-    if (this.currentFilterApplied) {
-      this.refreshImage();
-    } else {
-      this.renderFilter();
-    }
-  }
-
-  refreshImage(src = null) {
-    setTimeout((() => this.photo.nativeElement.src = src || this.photoSrc));
+    this.renderFilter();
   }
 }

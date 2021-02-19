@@ -5,7 +5,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { WsModule } from './ws/ws.module';
 import { UsersService } from './users/users.service';
-import { TestService } from './test/test.service';
 
 @Module({
   imports: [
