@@ -15,13 +15,13 @@ export class VoteComponent implements OnInit {
   ngOnInit(): void {}
 
   getDownVote(result: number): void {
-    this.downVote = result;
+    this.downVote = 10;
     setTimeout(() => {
       this.upVote > this.downVote ? this.voteService.keepPhoto(true) : this.voteService.keepPhoto(false);
     });
   }
 
   getUpVote(result: number): void {
-    this.upVote = result;
+    this.upVote = 50;
   }
 }

@@ -18,13 +18,6 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server;
 
   constructor(private testService: TestService) {
-    this.testService.service$.subscribe((next: string) => {
-      if (next) {
-        this.server.emit('lock', next);
-      } else {
-        this.server.emit('unlock', next);
-      }
-    });
   }
 
   async handleConnection() {

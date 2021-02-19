@@ -7,12 +7,14 @@ import { applyPresetOnImage, presetsMapping } from 'instagram-filters';
   styleUrls: ['./photo-editor.component.scss'],
 })
 export class PhotoEditorComponent implements AfterViewInit {
-  @ViewChild('photo') photo: ElementRef;
+  @ViewChild('photoRef') photoRef: ElementRef;
 
   @Input() public photoSrc: string;
 
   public currentFilterApplied;
   public currentFilterName = 'noFilter';
+
+  public imageFile: File;
 
   constructor() { }
 
@@ -22,23 +24,35 @@ export class PhotoEditorComponent implements AfterViewInit {
 
   async renderFilter() {
     if (!this.currentFilterApplied) {
-      const blob = await applyPresetOnImage(this.photo.nativeElement, presetsMapping[this.currentFilterName]());
+      const blob = await applyPresetOnImage(this.photoRef.nativeElement, presetsMapping[this.currentFilterName]());
       this.refreshImage(URL.createObjectURL(blob));
+      this.imageFile = this.blobToFile(blob, 'photo');
       this.currentFilterApplied = true;
     }
+  }
+
+  public blobToFile(theBlob: Blob, fileName: string): File {
+    const b: any = theBlob;
+    b.lastModifiedDate = new Date();
+    b.name = fileName;
+
+    return theBlob as File;
   }
 
   async onFilterApplied(filterName: string) {
     this.currentFilterName = filterName;
     this.currentFilterApplied = filterName === 'noFilter';
-    if (this.currentFilterApplied) {
-      this.refreshImage();
-    } else {
-      this.renderFilter();
+    if (this.photoRef) {
+      if (this.currentFilterApplied) {
+        this.refreshImage();
+      } else {
+        this.renderFilter();
+      }
     }
   }
 
   refreshImage(src = null) {
-    setTimeout((() => this.photo.nativeElement.src = src || this.photoSrc));
+    setTimeout((() => this.photoRef.nativeElement.src = src || this.photoSrc));
   }
+
 }

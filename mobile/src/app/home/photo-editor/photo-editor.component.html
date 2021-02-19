@@ -1,7 +1,14 @@
 <ion-grid>
 		<ion-row class="ion-justify-content-center">
-			<img (load)="renderFilter()" alt="Album Image" crossOrigin="Anonymous"
-				#photo />
+			<img style="display: none"
+				 (load)="renderFilter()"
+				 alt="Album Image"
+				 crossOrigin="Anonymous"
+				 #photoRef />
+			<image-cropper
+					[maintainAspectRatio]="true"
+					[imageFile]="imageFile"
+			></image-cropper>
 		</ion-row>
 
 		<app-filters (filterApplied)="onFilterApplied($event)"></app-filters>
