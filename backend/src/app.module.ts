@@ -4,6 +4,8 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { WsModule } from './ws/ws.module';
+import { UsersService } from './users/users.service';
+import { TestService } from './test/test.service';
 
 @Module({
   imports: [
@@ -13,6 +15,6 @@ import { WsModule } from './ws/ws.module';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UsersService, TestService],
 })
 export class AppModule {}

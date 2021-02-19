@@ -25,6 +25,9 @@
 			  (noVote)="onNoVote()"
 			  *ngIf="albumSessionStarted && !photoKept">
 	</app-vote>
+
 	<app-photo-editor [photoSrc]="photoSrc" *ngIf="albumSessionStarted && photoKept"></app-photo-editor>
+
+	<app-test></app-test>
 
 </ion-content>

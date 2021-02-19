@@ -3,14 +3,46 @@ import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CurrentSession, Session } from './session';
 
+import { UsersService } from './users/users.service';
+import { TestService } from './test/test.service';
+
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private usersService: UsersService,
+    private testService: TestService,
+  ) {}
 
   @Get()
   getHello(): string {
     console.log('REST :: EMPTY GET :: Hello world');
     return this.appService.getHello();
+  }
+
+  @Get('connect')
+  getConnection(): string {
+    const id = this.usersService.newUser();
+    console.log(`REST :: CONNECT :: ${id}`);
+    return id;
+  }
+
+  @Get('disconnect/:id')
+  getDisconnection(@Param('id') id: string): void {
+    console.log(`REST :: DISCONNECT :: ${id}`);
+    this.usersService.removeUser(id);
+  }
+
+  @Get('lock/:id')
+  getLock(@Param('id') id: string): void {
+    console.log(`REST :: LOCK :: ${id}`);
+    this.testService.lockService(id);
+  }
+
+  @Get('unlock/:id')
+  getUnlock(@Param('id') id: string): void {
+    console.log(`REST :: UNLOCK :: ${id}`);
+    this.testService.unlockService(id);
   }
 
   @Get('session')
