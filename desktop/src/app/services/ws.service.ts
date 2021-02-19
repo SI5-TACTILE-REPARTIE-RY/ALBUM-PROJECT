@@ -29,12 +29,12 @@ export class WsService {
     return this.socket.fromEvent('filter-applied');
   }
 
-  goodShakeEvent(): Observable<any> {
-    return this.socket.fromEvent('good');
+  upVoteEvent(): Observable<any> {
+    return this.socket.fromEvent('upVote');
   }
 
-  badShakeEvent(): Observable<any> {
-    return this.socket.fromEvent('bad');
+  downVoteEvent(): Observable<any> {
+    return this.socket.fromEvent('downVote');
   }
 
 }

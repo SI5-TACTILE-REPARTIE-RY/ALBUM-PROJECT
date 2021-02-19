@@ -32,11 +32,11 @@ export class WsService {
     return this.socket.fromEvent('vote-finished');
   }
 
-  sendGoodShake() {
-    this.socket.emit('good');
+  sendUpVote() {
+    this.socket.emit('upVote');
   }
 
-  sendBadShake() {
-    this.socket.emit('bad');
+  sendDownVote() {
+    this.socket.emit('downVote');
   }
 }

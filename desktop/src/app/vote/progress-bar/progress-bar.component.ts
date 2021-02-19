@@ -1,21 +1,21 @@
-import {AfterViewInit, Component, ElementRef, Input, Output, ViewChild, EventEmitter} from '@angular/core';
-import { WsService } from '../services/ws.service';
-import { GameService } from '../services/game.service';
+import { AfterViewInit, Component, ElementRef, Input, Output, ViewChild, EventEmitter, OnDestroy } from '@angular/core';
+import { WsService } from '../../services/ws.service';
+import { VoteService } from '../../services/vote.service';
 
 @Component({
   selector: 'app-progress-bar',
   templateUrl: './progress-bar.component.html',
   styleUrls: ['./progress-bar.component.css']
 })
-export class ProgressBarComponent implements AfterViewInit {
+export class ProgressBarComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('background') backgroundRect: ElementRef;
   @ViewChild('progression') progressionRect: ElementRef;
 
   @Input() observe: string;
-  shake = 0;
-
   @Output() result = new EventEmitter<number>();
+
+  shake = 0;
 
   interval = null;
 
@@ -40,19 +40,19 @@ export class ProgressBarComponent implements AfterViewInit {
   };
   remainingPathColor = this.COLOR_CODES.alert.color;
 
-  constructor(private wsService: WsService, private gameService: GameService) {}
+  constructor(private wsService: WsService, private voteService: VoteService) {}
 
   ngAfterViewInit(): void {
 
     // Listen socket
     switch (this.observe) {
-      case 'good':
-        this.wsService.goodShakeEvent().subscribe(next => {
+      case 'upVote':
+        this.wsService.upVoteEvent().subscribe(next => {
           ++this.shake;
         });
         break;
-      case 'bad':
-        this.wsService.badShakeEvent().subscribe(next => {
+      case 'downVote':
+        this.wsService.downVoteEvent().subscribe(next => {
           ++this.shake;
         });
         break;
@@ -62,11 +62,11 @@ export class ProgressBarComponent implements AfterViewInit {
     this.total = this.backgroundRect.nativeElement.getBoundingClientRect().height;
     this.progression = this.getSize();
 
-    // WATCH GAME STATE
-    this.gameService.running$.subscribe(next => {
-      if (next) {
+    // WATCH VOTE STATE
+    this.voteService.voteRunning$.subscribe(voteRunning => {
+      if (voteRunning === true) {
         this.startInterval();
-      } else {
+      } else if (voteRunning === false) {
         clearInterval(this.interval);
         this.result.emit(this.progression);
       }
@@ -158,6 +158,10 @@ export class ProgressBarComponent implements AfterViewInit {
   }
   private getSize(): number {
     return this.progressionRect.nativeElement.getBoundingClientRect().height;
+  }
+  
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
   }
 
 }

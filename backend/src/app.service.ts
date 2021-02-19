@@ -29,8 +29,8 @@ export class AppService {
     this.wsGateway.filterApplied(filterName);
   }
 
-  voteFinished(photoKept: string): void {
-    CurrentSession.photoKept = photoKept === 'true';
+  voteFinished(photoKept: boolean): void {
+    CurrentSession.photoKept = photoKept;
     if (CurrentSession.photoKept) {
       this.wsGateway.voteFinished(CurrentSession.photoKept);
     } else {

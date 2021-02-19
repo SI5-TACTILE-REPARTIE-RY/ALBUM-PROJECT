@@ -8,22 +8,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // COMPONENTS
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { ShakeBarComponent } from './shake-bar/shake-bar.component';
-import { TimerComponent } from './timer/timer.component';
-import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import { VoteComponent } from './vote/vote.component';
+import { TimerComponent } from './vote/timer/timer.component';
+import { ProgressBarComponent } from './vote/progress-bar/progress-bar.component';
 
 // OTHERS
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
+import { VoteResultMessageComponent } from './home/vote-result-message/vote-result-message.component';
 const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ShakeBarComponent,
+    VoteComponent,
     TimerComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    VoteResultMessageComponent
   ],
   imports: [
     BrowserModule,

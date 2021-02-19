@@ -29,16 +29,16 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.broadcast.emit('message', message);
   }
 
-  @SubscribeMessage('good')
-  async onGoodShake() {
-    console.log(`GATEWAY :: RECEIVE :: GOOD SHAKE`);
-    this.server.emit('good');
+  @SubscribeMessage('upVote')
+  async onUpVote() {
+    console.log(`GATEWAY :: RECEIVE :: UP VOTE SHAKE`);
+    this.server.emit('upVote');
   }
 
-  @SubscribeMessage('bad')
-  async onBadShake() {
-    console.log(`GATEWAY :: RECEIVE :: BAD SHAKE`);
-    this.server.emit('bad');
+  @SubscribeMessage('downVote')
+  async onDownVote() {
+    console.log(`GATEWAY :: RECEIVE :: DOWN VOTE SHAKE`);
+    this.server.emit('downVote');
   }
 
   async albumSessionStarted(photoSrc: string) {

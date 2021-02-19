@@ -1,12 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {GameService} from "../services/game.service";
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {VoteService} from "../../services/vote.service";
 
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css']
 })
-export class TimerComponent implements OnInit {
+export class TimerComponent implements OnInit, OnDestroy {
 
   @Input() time: number;
 
@@ -38,15 +38,12 @@ export class TimerComponent implements OnInit {
   };
   remainingPathColor = this.COLOR_CODES.info.color;
 
-  constructor(private gameService: GameService) { }
+  constructor(private voteService: VoteService) { }
 
   ngOnInit(): void {
     if (this.time) { this.TIME_LIMIT = this.time; }
-    this.gameService.running$.subscribe(next => {
-      if (next) {
-        this.startInterval();
-      }
-    });
+    this.voteService.startVote();
+    this.startInterval();
   }
 
   formatTimeLeft(time): string {
@@ -67,8 +64,7 @@ export class TimerComponent implements OnInit {
 
   onTimesUp(): void {
     clearInterval(this.timerInterval);
-    this.gameService.endGame();
-    this.ngOnInit();
+    this.voteService.endVote();
   }
 
   startInterval(): void {
@@ -119,6 +115,10 @@ export class TimerComponent implements OnInit {
     document
       .getElementById('base-timer-path-remaining')
       .setAttribute('stroke-dasharray', circleDasharray);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.timerInterval);
   }
 
 }

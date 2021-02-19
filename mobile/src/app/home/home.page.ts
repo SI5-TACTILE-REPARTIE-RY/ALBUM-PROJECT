@@ -38,10 +38,10 @@ export class HomePage implements AfterViewInit {
 
   CONFIG = {
     style: {
-      good: {
+      upVote: {
         color: 'lightgreen'
       },
-      bad: {
+      downVote: {
         color: 'orangered'
       }
     },
@@ -140,9 +140,9 @@ export class HomePage implements AfterViewInit {
     const { style } = this.CONFIG;
     if (this.detectShake(acceleration)) {
       if (this.toggle) {
-        this.ionContentBorder = style.bad.color;
+        this.ionContentBorder = style.downVote.color;
       } else {
-        this.ionContentBorder = style.good.color;
+        this.ionContentBorder = style.upVote.color;
       }
     } else {
       this.ionContentBorder = this.ionContentBorderDefault;
@@ -152,9 +152,9 @@ export class HomePage implements AfterViewInit {
   private emitShake(acceleration: DeviceMotionAccelerationData): void {
     if (this.detectShake(acceleration)) {
       if (this.toggle) {
-        this.wsService.sendBadShake();
+        this.wsService.sendDownVote();
       } else {
-        this.wsService.sendGoodShake();
+        this.wsService.sendUpVote();
       }
     }
   }
@@ -175,10 +175,10 @@ export class HomePage implements AfterViewInit {
     const { style } = this.CONFIG;
     if (this.toggle) {
       this.thumbsUpColor = this.thumbsUpColorDefault;
-      this.thumbsDownColor = style.bad.color;
+      this.thumbsDownColor = style.downVote.color;
     } else {
       this.thumbsDownColor = this.thumbsDownColorDefault;
-      this.thumbsUpColor = style.good.color;
+      this.thumbsUpColor = style.upVote.color;
     }
   }
 
