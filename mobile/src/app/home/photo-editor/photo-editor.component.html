@@ -1,13 +1,9 @@
 <ion-grid>
 		<ion-row class="ion-justify-content-center">
-			<img style="display: none"
-				 (load)="renderFilter()"
-				 alt="Album Image"
-				 crossOrigin="Anonymous"
-				 #photoRef />
 			<image-cropper
 					[maintainAspectRatio]="true"
-					[imageFile]="imageFile"
+					[imageFile]="photoFile"
+					[imageURL]="!this.photoFile ? photoSrc : null"
 			></image-cropper>
 		</ion-row>
 

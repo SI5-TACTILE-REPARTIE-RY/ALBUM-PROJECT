@@ -28,8 +28,7 @@ export class FiltersComponent implements OnInit {
   }
 
   applyRandomFilter() {
-    const randomFilterName = this.filterNames[Math.floor(Math.random() * this.filterNames.length)];
-    this.http.get('/apply-filter/' + randomFilterName);
+    this.currentFilterName = this.filterNames[Math.floor(Math.random() * this.filterNames.length)];
   }
 
   applyFilter() {
