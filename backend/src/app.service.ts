@@ -37,4 +37,16 @@ export class AppService {
       this.resetAlbumSession();
     }
   }
+
+  testLock(id: string) {
+    CurrentSession.test = id;
+    this.wsGateway.refresh();
+  }
+
+  testUnlock(id: string) {
+    if (CurrentSession.test === id) {
+      CurrentSession.test = null;
+    }
+    this.wsGateway.refresh();
+  }
 }

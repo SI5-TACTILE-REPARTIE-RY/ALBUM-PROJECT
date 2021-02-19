@@ -1,3 +1,11 @@
-<ion-button>
+<ion-button expand="block" *ngIf="canUnlock()" (click)="unlock()">
+    Unlock
+</ion-button>
 
+<ion-button expand="block" *ngIf="isUnlocked()" (click)="lock()">
+    Lock
+</ion-button>
+
+<ion-button disabled="true" expand="block" *ngIf="isLocked()">
+    Lock
 </ion-button>

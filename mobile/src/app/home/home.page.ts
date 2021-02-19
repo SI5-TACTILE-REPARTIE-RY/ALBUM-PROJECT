@@ -3,6 +3,9 @@ import { HttpService } from '../services/http.service';
 import {Component, OnInit} from '@angular/core';
 import { WsService } from '../services/ws.service';
 import {environment} from '../../environments/environment';
+import { Plugins } from '@capacitor/core';
+import {Platform} from "@ionic/angular";
+const { App } = Plugins;
 
 
 @Component({
@@ -19,7 +22,16 @@ export class HomePage implements OnInit {
   ionContentBorderDefault = 'white';
   ionContentBorder = 'white';
 
-  constructor(private wsService: WsService, private http: HttpService, private sessionService: SessionService) {}
+  constructor(
+      private wsService: WsService,
+      private http: HttpService,
+      private sessionService: SessionService,
+      private platform: Platform
+  ) {
+    this.platform.backButton.subscribeWithPriority(-1, () => {
+      this.sessionService.disconnect().then(App.exitApp());
+    });
+  }
 
   ngOnInit() {
     this.sessionService.session$.subscribe((session: Session) => {

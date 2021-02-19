@@ -24,7 +24,7 @@ export class AppController {
   getConnection(): string {
     const id = this.usersService.newUser();
     console.log(`REST :: CONNECT :: ${id}`);
-    return id;
+    return JSON.stringify(id);
   }
 
   @Get('disconnect/:id')

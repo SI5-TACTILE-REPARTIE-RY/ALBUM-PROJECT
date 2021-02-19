@@ -12,6 +12,7 @@ import { FiltersComponent } from './photo-editor/filters/filters.component';
 import { HttpService } from '../services/http.service';
 import { SessionService } from '../services/session.service';
 import { WsService } from '../services/ws.service';
+import {TestComponent} from "../test/test.component";
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { WsService } from '../services/ws.service';
     UsersOnlineComponent,
     VoteComponent,
     PhotoEditorComponent,
-    FiltersComponent
+    FiltersComponent,
+    TestComponent
   ],
   providers: [HTTP, HttpService, SessionService, WsService]
 })

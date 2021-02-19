@@ -7,25 +7,12 @@ import {
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
 
-// SERVICES
-import { TestService } from '../test/test.service';
-
 // OTHER
 import { CurrentSession } from '../session';
 
 @WebSocketGateway()
 export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server;
-
-  constructor(private testService: TestService) {
-    this.testService.service$.subscribe((next: string) => {
-      if (next) {
-        this.server.emit('lock', next);
-      } else {
-        this.server.emit('unlock', next);
-      }
-    });
-  }
 
   async handleConnection() {
     console.log('GATEWAY :: CONNECTION');
@@ -57,11 +44,6 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit('downVote');
   }
 
-  async refreshSession() {
-    console.log(`GATEWAY :: EMIT :: REFRESH SESSION :: ${CurrentSession}`);
-    this.server.emit('session', CurrentSession);
-  }
-
   async albumSessionStarted(photoSrc: string) {
     console.log(`GATEWAY :: EMIT :: START ALBUM SESSION`);
     this.server.emit('album-session-started', photoSrc);
@@ -80,5 +62,10 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async voteFinished(photoKept: boolean) {
     console.log(`GATEWAY :: EMIT :: VOTE FINISHED :: ${photoKept}`);
     this.server.emit('vote-finished', photoKept);
+  }
+
+  refresh() {
+    console.log(`GATEWAY :: EMIT :: ASK REFRESH :: ${CurrentSession}`);
+    this.server.emit('refresh', CurrentSession);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { Session, SessionService} from '../services/session.service';
 
 @Component({
   selector: 'app-test',
@@ -8,7 +9,17 @@ import { Socket } from 'ngx-socket-io';
 })
 export class TestComponent implements OnInit {
 
-  constructor(private socket: Socket) { }
+  userID: string = null;
+  session: Session = null;
+
+  constructor(private socket: Socket, private sessionService: SessionService) {
+    this.sessionService.session$.subscribe((session: Session) => {
+      this.session = session;
+    });
+    this.sessionService.userID$.subscribe((id: string) => {
+      this.userID = id;
+    });
+  }
 
   ngOnInit() {}
 
@@ -20,4 +31,35 @@ export class TestComponent implements OnInit {
     return this.socket.fromEvent<string>('unlock').toPromise();
   }
 
+  canUnlock(): boolean {
+    if (this.session) {
+      return this.session.test === this.userID;
+    } else {
+      return false;
+    }
+  }
+
+  isUnlocked(): boolean {
+    if (this.session) {
+      return this.session.test === null;
+    } else {
+      return false;
+    }
+  }
+
+  isLocked(): boolean {
+    if (this.session) {
+      return this.session.test !== this.userID && this.session.test !== null;
+    } else {
+      return false;
+    }
+  }
+
+  lock() {
+    this.sessionService.lock();
+  }
+
+  unlock() {
+    this.sessionService.unlock();
+  }
 }

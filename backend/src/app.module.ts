@@ -15,6 +15,6 @@ import { TestService } from './test/test.service';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, UsersService, TestService],
+  providers: [AppService, TestService, UsersService],
 })
 export class AppModule {}
