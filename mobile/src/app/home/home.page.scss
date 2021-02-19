@@ -3,15 +3,3 @@ ion-content {
   flex-direction: column;
   border: solid 10px rgba(0, 0, 0, 0);
 }
-
-#photo {
-  flex: 1;
-}
-
-ion-toggle {
-  --background: grey;
-  --background-checked: grey;
-
-  --handle-background: lightgreen;
-  --handle-background-checked: orangered;
-}

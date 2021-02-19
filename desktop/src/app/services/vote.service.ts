@@ -3,11 +3,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-interface Result {
-  voteUp: number;
-  voteDown: number;
-}
-
 @Injectable({
   providedIn: 'root'
 })

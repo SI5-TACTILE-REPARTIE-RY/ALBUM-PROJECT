@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {VoteService} from "../../services/vote.service";
+import {VoteService} from "../../../services/vote.service";
 
 @Component({
   selector: 'app-timer',

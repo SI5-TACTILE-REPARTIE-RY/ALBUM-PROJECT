@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, Output, ViewChild, EventEmitter, OnDestroy } from '@angular/core';
-import { WsService } from '../../services/ws.service';
-import { VoteService } from '../../services/vote.service';
+import { WsService } from '../../../services/ws.service';
+import { VoteService } from '../../../services/vote.service';
 
 @Component({
   selector: 'app-progress-bar',
@@ -159,7 +159,7 @@ export class ProgressBarComponent implements AfterViewInit, OnDestroy {
   private getSize(): number {
     return this.progressionRect.nativeElement.getBoundingClientRect().height;
   }
-  
+
   ngOnDestroy(): void {
     clearInterval(this.interval);
   }

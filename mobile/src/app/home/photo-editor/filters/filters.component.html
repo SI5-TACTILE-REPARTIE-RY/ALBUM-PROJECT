@@ -1,0 +1,12 @@
+<ion-row class="ion-justify-content-center">
+
+  <ion-button (click)="applyRandomFilter()">
+    Apply a random filter
+  </ion-button>
+  
+  <ion-select value="notifications" interface="popover" [(ngModel)]="currentFilterName" (ionChange)="applyFilter()">
+    <ion-select-option value="noFilter">No filter</ion-select-option>
+    <ion-select-option *ngFor="let filter of filterNames" [value]="filter">{{filter}}</ion-select-option>
+  </ion-select>
+
+</ion-row>

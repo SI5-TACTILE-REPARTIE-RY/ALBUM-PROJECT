@@ -8,9 +8,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // COMPONENTS
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { VoteComponent } from './vote/vote.component';
-import { TimerComponent } from './vote/timer/timer.component';
-import { ProgressBarComponent } from './vote/progress-bar/progress-bar.component';
+import { VoteComponent } from './home/vote/vote.component';
+import { TimerComponent } from './home/vote/timer/timer.component';
+import { ProgressBarComponent } from './home/vote/progress-bar/progress-bar.component';
 
 // OTHERS
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';

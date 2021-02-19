@@ -1,0 +1,16 @@
+<ion-grid>
+  <ion-row>
+  <img [src]="photoSrc" alt="Album Image"/>
+  </ion-row>
+  <ion-row>
+    <ion-col class="ion-text-end">
+      <ion-icon name="thumbs-up" size="large" [ngStyle]="{'color': thumbsUpColor}"></ion-icon>
+    </ion-col>
+    <ion-col size="auto" class="ion-text-center">
+      <ion-toggle [(ngModel)]="toggle" (ionChange)="toggleChange()"></ion-toggle>
+    </ion-col>
+    <ion-col class="ion-text-start">
+      <ion-icon name="thumbs-down" size="large" [ngStyle]="{'color': thumbsDownColor}"></ion-icon>
+    </ion-col>
+  </ion-row>
+</ion-grid>

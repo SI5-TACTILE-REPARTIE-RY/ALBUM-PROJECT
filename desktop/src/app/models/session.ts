@@ -4,4 +4,4 @@ export interface Session {
   currentPhotoName: string;
   currentFilterName: string;
   photoKept: boolean;
-};
+}

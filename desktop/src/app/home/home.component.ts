@@ -1,4 +1,4 @@
-import { VoteService } from './../services/vote.service';
+import { VoteService } from '../services/vote.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { applyPresetOnImage, presetsMapping } from 'instagram-filters';
@@ -14,16 +14,16 @@ import { Session } from '../models/session';
 export class HomeComponent implements OnInit {
   @ViewChild('albumImage') albumImage: ElementRef;
 
-  public users: number = 0;
-  public albumSessionStarted: boolean = false;
+  public users = 0;
+  public albumSessionStarted = false;
   public photoSrc: string = null;
-  public currentFilterName: string = "noFilter";
-  public currentFilterApplied: boolean = true;
-  displayVote: boolean = true;
+  public currentFilterName = 'noFilter';
+  public currentFilterApplied = true;
+  displayVote = true;
 
   constructor(private wsService: WsService, private httpWeb: HttpClient, private voteSerive: VoteService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.httpWeb.get(`${environment.SERVER_ADDRESS}/session`).subscribe((session: Session) => {
       this.setSession(session);
     });
@@ -53,10 +53,10 @@ export class HomeComponent implements OnInit {
       if (photoKept !== null) {
         this.displayVote = false;
       }
-    })
+    });
   }
 
-  setSession(session: Session) {
+  setSession(session: Session): void {
     this.displayVote = !session.photoKept;
     this.users = session.users;
     this.albumSessionStarted = session.started;
@@ -64,35 +64,35 @@ export class HomeComponent implements OnInit {
     this.updatePhotoSrc(environment.SERVER_ADDRESS + '/' + session.currentPhotoName);
   }
 
-  async imageLoaded() {
+  async imageLoaded(): Promise<void> {
     if (!this.currentFilterApplied) {
       const blob = await applyPresetOnImage(this.albumImage.nativeElement, presetsMapping[this.currentFilterName]());
-      this.refreshImage(URL.createObjectURL(blob))
+      this.refreshImage(URL.createObjectURL(blob));
       this.currentFilterApplied = true;
     }
   }
 
-  startAlbumSession() {
+  startAlbumSession(): void {
     setTimeout(() => this.httpWeb.get(`${environment.SERVER_ADDRESS}/start-album-session`).subscribe(), 500);
   }
 
-  stopAlbumSession() {
+  stopAlbumSession(): void {
     this.httpWeb.get(`${environment.SERVER_ADDRESS}/stop-album-session`).subscribe();
   }
 
-  updateFilter(fiterName) {
-    this.currentFilterName = fiterName;
-    this.currentFilterApplied = (fiterName === 'noFilter');
+  updateFilter(filterName: string): void {
+    this.currentFilterName = filterName;
+    this.currentFilterApplied = (filterName === 'noFilter');
   }
 
-  updatePhotoSrc(src) {
+  updatePhotoSrc(src): void {
     this.photoSrc = src;
     if (this.photoSrc && this.albumSessionStarted) {
       this.refreshImage();
     }
   }
 
-  refreshImage(src = null) {
+  refreshImage(src = null): void {
     setTimeout(() => this.albumImage.nativeElement.src = src || this.photoSrc);
   }
 }

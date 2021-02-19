@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { VoteService } from '../services/vote.service';
+import { VoteService } from '../../services/vote.service';
 
 @Component({
   selector: 'app-vote',
@@ -7,21 +7,21 @@ import { VoteService } from '../services/vote.service';
   styleUrls: ['./vote.component.css']
 })
 export class VoteComponent implements OnInit {
-  upVote: number;
-  downVote: number;
+  upVote = 10;
+  downVote = 10;
 
   constructor(private voteService: VoteService) { }
 
   ngOnInit(): void {}
 
   getDownVote(result: number): void {
-    this.downVote = result;
+    this.downVote = 5;
     setTimeout(() => {
       this.upVote > this.downVote ? this.voteService.keepPhoto(true) : this.voteService.keepPhoto(false);
     });
   }
 
   getUpVote(result: number): void {
-    this.upVote = result;
+    this.upVote = 15;
   }
 }

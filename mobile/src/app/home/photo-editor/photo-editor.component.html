@@ -1,0 +1,9 @@
+<ion-grid>
+		<ion-row class="ion-justify-content-center">
+			<img [ngClass]="{'visibility': currentFilterName === 'noFilter' ? 'hidden' : 'visible'}"
+				*ngIf="photoSrc" (load)="imageLoaded()" alt="Album Image" crossOrigin="Anonymous"
+				#photo />
+		</ion-row>
+
+		<app-filters (filterApplied)="onFilterApplied($event)"></app-filters>
+</ion-grid>
