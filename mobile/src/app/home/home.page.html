@@ -5,13 +5,9 @@
 </ion-header>
 
 <ion-content [ngStyle]="{'border-color': ionContentBorder}">
-	<ion-grid id="header">
+	<ion-grid>
 		<ion-row class="ion-justify-content-center">
-			<ion-card>
-				<ion-card-content>
-					There are currently <strong>{{users}}</strong> users online.
-				</ion-card-content>
-			</ion-card>
+			<app-users-online *ngIf="!albumSessionStarted"></app-users-online>
 
 			<ion-button *ngIf="!albumSessionStarted" (click)="startAlbumSession()">
 				Start album session
@@ -22,42 +18,16 @@
 			</ion-button>
 		</ion-row>
 	</ion-grid>
-	<ion-grid id="photo">
-		<ion-row class="ion-justify-content-center">
-			<img [ngClass]="{'visibility': currentFilterApplied ? 'visible' : 'hidden'}"
-				 *ngIf="photoSrc && albumSessionStarted"
-				(load)="imageLoaded()" alt="Album Image" crossOrigin="Anonymous" #albumImage />
-		</ion-row>
 
-		<ion-row class="ion-justify-content-center" *ngIf="albumSessionStarted && photoKept">
+	<app-vote [photoSrc]="photoSrc"
+			  (upVote)="onUpVote()"
+			  (downVote)="onDownVote()"
+			  (noVote)="onNoVote()"
+			  *ngIf="albumSessionStarted && !photoKept">
+	</app-vote>
 
-			<ion-button (click)="applyRandomFilter()">
-				Apply a random filter
-			</ion-button>
-
-			<ion-select value="notifications" interface="popover" [(ngModel)]="currentFilterName" (ionChange)="applyFilter()">
-				<ion-select-option value="noFilter">No filter</ion-select-option>
-				<ion-select-option *ngFor="let filter of filterNames" [value]="filter">{{filter}}</ion-select-option>
-			</ion-select>
-
-		</ion-row>
-
-	</ion-grid>
+	<app-photo-editor [photoSrc]="photoSrc" *ngIf="albumSessionStarted && photoKept"></app-photo-editor>
 
 	<app-test></app-test>
-
-	<ion-grid id="toggle" *ngIf="albumSessionStarted && !photoKept">
-		<ion-row>
-			<ion-col class="ion-text-end">
-				<ion-icon name="thumbs-up" size="large" [ngStyle]="{'color': thumbsUpColor}"></ion-icon>
-			</ion-col>
-			<ion-col size="auto" class="ion-text-center">
-				<ion-toggle [(ngModel)]="toggle" (ionChange)="toggleChange()"></ion-toggle>
-			</ion-col>
-			<ion-col class="ion-text-start">
-				<ion-icon name="thumbs-down" size="large" [ngStyle]="{'color': thumbsDownColor}"></ion-icon>
-			</ion-col>
-		</ion-row>
-	</ion-grid>
 
 </ion-content>

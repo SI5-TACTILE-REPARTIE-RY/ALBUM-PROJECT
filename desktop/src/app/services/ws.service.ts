@@ -9,7 +9,7 @@ export class WsService {
 
   constructor(private socket: Socket) {}
 
-  sendWsMessage(message){
+  sendWsMessage(message): void {
     this.socket.emit('message', message);
   }
 
@@ -17,7 +17,7 @@ export class WsService {
     return this.socket.fromEvent('album-session-started');
   }
 
-  albumSessionResetEvent() {
+  albumSessionResetEvent(): Observable<any> {
     return this.socket.fromEvent('album-session-reset');
   }
 
