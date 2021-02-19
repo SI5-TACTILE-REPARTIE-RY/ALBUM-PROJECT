@@ -1,12 +1,14 @@
 // ANGULAR
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Platform } from '@ionic/angular';
+import {Platform, ViewWillLeave} from '@ionic/angular';
 
 // NATIVE
 import {DeviceMotion, DeviceMotionAccelerationData} from '@ionic-native/device-motion/ngx';
 import { HTTP, HTTPResponse } from '@ionic-native/http/ngx';
+import { Plugins } from '@capacitor/core';
+const { App } = Plugins;
 
 // SERVICES
 import { WsService } from '../services/ws.service';
@@ -14,7 +16,7 @@ import { WsService } from '../services/ws.service';
 // CUSTOMS
 import { applyPresetOnImage, presetsMapping } from 'instagram-filters';
 import { FilterNames } from './filter-names';
-import { Session } from './session';
+// import { Session } from './session';
 
 
 @Component({
@@ -22,9 +24,11 @@ import { Session } from './session';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements AfterViewInit {
+export class HomePage implements OnInit, AfterViewInit {
 
   @ViewChild('albumImage') albumImage: ElementRef;
+
+  private id: string;
 
   public users = 0;
   public albumSessionStarted = false;
@@ -76,10 +80,43 @@ export class HomePage implements AfterViewInit {
   constructor(
       private deviceMotion: DeviceMotion,
       private wsService: WsService,
-      private httpMobile: HTTP,
       private platform: Platform,
-      private httpWeb: HttpClient
-  ) { }
+      private httpWeb: HttpClient,
+      private httpMobile: HTTP,
+  ) {
+    /* Back Button Behavior */
+    this.platform.backButton.subscribeWithPriority(-1, () => {
+      this.disconnectFromBackend().then(App.exitApp());
+    });
+  }
+
+  disconnectFromBackend(): Promise<any> {
+    if (this.platform.is('cordova')) {
+      return this.httpMobile.get(`${environment.SERVER_ADDRESS}/disconnect/${this.id}`, {}, {});
+    } else {
+      return this.httpWeb.get(`${environment.SERVER_ADDRESS}/disconnect/${this.id}`).toPromise();
+    }
+  }
+
+  /* ---- OnInit ---- */
+
+  ngOnInit(): void {
+    this.connectToBackend();
+  }
+
+  connectToBackend() {
+    if (this.platform.is('cordova')) {
+      this.httpMobile.get(`${environment.SERVER_ADDRESS}/connect`, {}, {}).then((result: HTTPResponse) => {
+        this.id = result.data;
+      });
+    } else {
+      this.httpWeb.get(`${environment.SERVER_ADDRESS}/connect`).toPromise().then((id: string) => {
+        this.id = id;
+      });
+    }
+  }
+
+  /* ---- AfterViewInit ---- */
 
   ngAfterViewInit() {
     this.startWatchingMotion();
@@ -116,7 +153,6 @@ export class HomePage implements AfterViewInit {
     this.wsService.voteFinishedEvent().subscribe(async (photoKept: boolean) => {
       this.photoKept = photoKept;
     });
-
   }
 
   setSession(session: Session) {
@@ -127,7 +163,7 @@ export class HomePage implements AfterViewInit {
     this.updatePhotoSrc(environment.SERVER_ADDRESS + '/' + session.currentPhotoName);
   }
 
-  /* ------------- DEVICE MOTION WATCHING BEHAVIOR ------------- */
+  /* ------------- DEVICE MOTION WATCHING BEHAVIOR - SHAKE BEHAVIOR ------------- */
 
   startWatchingMotion(): void {
     this.deviceMotion.watchAcceleration({ frequency: 100 }).subscribe((acceleration: DeviceMotionAccelerationData) => {

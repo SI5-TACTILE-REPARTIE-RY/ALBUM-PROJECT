@@ -1,3 +1,4 @@
+// COMMON
 import {
   WebSocketGateway,
   WebSocketServer,
@@ -5,11 +6,26 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
+
+// SERVICES
+import { TestService } from '../test/test.service';
+
+// OTHER
 import { CurrentSession } from '../session';
 
 @WebSocketGateway()
 export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server;
+
+  constructor(private testService: TestService) {
+    this.testService.service$.subscribe((next: string) => {
+      if (next) {
+        this.server.emit('lock', next);
+      } else {
+        this.server.emit('unlock', next);
+      }
+    });
+  }
 
   async handleConnection() {
     console.log('GATEWAY :: CONNECTION');
@@ -39,6 +55,11 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async onDownVote() {
     console.log(`GATEWAY :: RECEIVE :: DOWN VOTE SHAKE`);
     this.server.emit('downVote');
+  }
+
+  async refreshSession() {
+    console.log(`GATEWAY :: EMIT :: REFRESH SESSION :: ${CurrentSession}`);
+    this.server.emit('session', CurrentSession);
   }
 
   async albumSessionStarted(photoSrc: string) {
