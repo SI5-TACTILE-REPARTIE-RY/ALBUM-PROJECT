@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
+import {Session} from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,6 @@ import { Observable } from 'rxjs';
 export class WsService {
 
   constructor(private socket: Socket) {}
-
-  sendWsMessage(message): void {
-    this.socket.emit('message', message);
-  }
 
   albumSessionStartedEvent(): Observable<any> {
     return this.socket.fromEvent('album-session-started');
@@ -35,6 +32,10 @@ export class WsService {
 
   downVoteEvent(): Observable<any> {
     return this.socket.fromEvent('downVote');
+  }
+
+  sessionRefreshed(): Observable<any> {
+    return this.socket.fromEvent<Session>('refresh');
   }
 
 }

@@ -1,6 +1,6 @@
-import { VoteService } from '../../services/vote.service';
 import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-vote-result-message',
@@ -29,14 +29,14 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ]
 })
 export class VoteResultMessageComponent implements OnInit {
-  photoKept: boolean = false;
-  photoKeptMessageAnimation: string = 'none';
-  photoNotKeptMessageAnimation: string = 'none';
+  photoKept = false;
+  photoKeptMessageAnimation = 'none';
+  photoNotKeptMessageAnimation = 'none';
 
-  constructor(private voteService: VoteService) { }
+  constructor(private sessionService: SessionService) { }
 
   ngOnInit(): void {
-    this.voteService.photoKept$.subscribe(photoKept => {
+    this.sessionService.photoKept$.subscribe(photoKept => {
       this.photoKept = photoKept;
       if (photoKept === true) {
         this.photoKeptMessageAnimation = 'hidden';

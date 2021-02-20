@@ -16,6 +16,8 @@ import { ProgressBarComponent } from './home/vote/progress-bar/progress-bar.comp
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { VoteResultMessageComponent } from './home/vote-result-message/vote-result-message.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { PhotoComponent } from './home/photo/photo.component';
 const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
 
 @NgModule({
@@ -25,14 +27,16 @@ const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
     VoteComponent,
     TimerComponent,
     ProgressBarComponent,
-    VoteResultMessageComponent
+    VoteResultMessageComponent,
+    PhotoComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SocketIoModule.forRoot(config),
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ImageCropperModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -64,11 +64,4 @@ export class FiltersComponent implements OnInit, AfterViewInit {
       this.displayPhotoWithFilter = false;
     }
   }
-
-  async onFilterApplied(filterName: string) {
-    this.currentFilterName = filterName;
-    if (this.photoWithoutFilterRef) {
-      this.renderFilter();
-    }
-  }
 }

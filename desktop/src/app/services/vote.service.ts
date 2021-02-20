@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import {SessionService} from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +10,8 @@ import { environment } from 'src/environments/environment';
 export class VoteService {
 
   voteRunning$: BehaviorSubject<boolean> = new BehaviorSubject(null);
-  photoKept$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
 
-  constructor(private httpWeb: HttpClient) { }
+  constructor(private http: HttpClient, private sessionService: SessionService) { }
 
   startVote(): void {
     this.voteRunning$.next(true);
@@ -22,7 +22,7 @@ export class VoteService {
   }
 
   keepPhoto(photoKept: boolean): void {
-    this.photoKept$.next(photoKept);
-    this.httpWeb.get(`${environment.SERVER_ADDRESS}/vote-finished?photoKept=${photoKept}`).subscribe();
+    this.sessionService.photoKept$.next(photoKept);
+    this.http.get(`${environment.SERVER_ADDRESS}/vote-finished?photoKept=${photoKept}`).subscribe();
   }
 }

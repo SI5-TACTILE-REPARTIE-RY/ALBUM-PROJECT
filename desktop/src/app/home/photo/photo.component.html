@@ -1,0 +1,9 @@
+<img [ngStyle]="{'display': !displayPhotoWithFilter ? 'block' : 'none'}"
+     [src]="photoSrc"
+     alt="Photo without filter"
+     crossOrigin="Anonymous"
+     #photoWithoutFilter/>
+<img [ngStyle]="{'display': displayPhotoWithFilter ? 'block' : 'none'}"
+     alt="Photo with a filter"
+     crossOrigin="Anonymous"
+     #photoWithFilter/>

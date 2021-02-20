@@ -3,8 +3,7 @@
 </ng-container>
 
 <ng-container *ngIf="albumSessionStarted && photoSrc">
-    <img *ngIf="photoSrc && albumSessionStarted"
-        (load)="renderFilter()" alt="Album Image" crossOrigin="Anonymous" #albumImage id="currentPhoto" />
+    <app-photo></app-photo>
     <app-vote *ngIf="displayVote"></app-vote>
 </ng-container>
 
