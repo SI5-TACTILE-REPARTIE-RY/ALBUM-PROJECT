@@ -9,11 +9,11 @@
 		<ion-row class="ion-justify-content-center">
 			<app-users-online *ngIf="!albumSessionStarted"></app-users-online>
 
-			<ion-button *ngIf="!albumSessionStarted" (click)="startAlbumSession()">
+			<ion-button color="success" *ngIf="!albumSessionStarted" (click)="startAlbumSession()">
 				Start album session
 			</ion-button>
 
-			<ion-button *ngIf="albumSessionStarted" (click)="resetAlbumSession()">
+			<ion-button color="warning" *ngIf="albumSessionStarted" (click)="resetAlbumSession()">
 				Reset album session
 			</ion-button>
 		</ion-row>

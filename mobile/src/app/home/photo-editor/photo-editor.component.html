@@ -1,20 +1,7 @@
 <ion-grid>
-		<ion-row class="ion-justify-content-center">
-			<img [ngStyle]="{'display': !displayPhotoWithFilter ? 'block' : 'none'}"
-				 [src]="photoSrc"
-				 alt="Photo without filter"
-				 crossOrigin="Anonymous"
-				 #photoWithoutFilter/>
-			<img [ngStyle]="{'display': displayPhotoWithFilter ? 'block' : 'none'}"
-				 alt="Photo with a filter"
-				 crossOrigin="Anonymous"
-				 #photoWithFilter/>
-			<image-cropper
-					[maintainAspectRatio]="true"
-					[imageFile]="photoFile"
-					[imageURL]="!this.photoFile ? photoSrc : null"
-			></image-cropper>
-		</ion-row>
-
-		<app-filters (filterApplied)="onFilterApplied($event)"></app-filters>
+	<app-filters [photoSrc]="photoSrc" *ngIf="displayAppFilters"></app-filters>
+	<app-cropper [photoSrc]="photoSrc"
+				 (cropStarted)="displayAppFilters = false"
+				 (cropFinished)="displayAppFilters = true">
+	</app-cropper>
 </ion-grid>

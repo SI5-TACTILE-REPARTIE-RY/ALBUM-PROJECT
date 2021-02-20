@@ -1,30 +1,40 @@
 import { HttpService } from '../../../services/http.service';
 import { WsService } from '../../../services/ws.service';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { FilterNames } from './filter-names';
 import {SessionService} from '../../../services/session.service';
+import {applyPresetOnImage, presetsMapping} from 'instagram-filters';
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss'],
 })
-export class FiltersComponent implements OnInit {
-  @Output() filterApplied: EventEmitter<string> = new EventEmitter();
-  public filterNames: string[] = FilterNames;
+export class FiltersComponent implements OnInit, AfterViewInit {
+  @Input() public photoSrc: string;
+
+  @ViewChild('photoWithoutFilter') photoWithoutFilterRef: ElementRef;
+  @ViewChild('photoWithFilter') photoWithFilterRef: ElementRef;
+
   public currentFilterName = 'noFilter';
+  public displayPhotoWithFilter: boolean;
+  public filterNames: string[] = FilterNames;
 
   constructor(private wsService: WsService, private sessionService: SessionService, private http: HttpService) { }
 
   ngOnInit() {
     this.wsService.filterAppliedEvent().subscribe(async (filterName: string) => {
       this.currentFilterName = filterName;
-      this.filterApplied.emit(this.currentFilterName);
+      this.renderFilter();
     });
     this.sessionService.session$.subscribe(session => {
       this.currentFilterName = session.currentFilterName;
-      this.filterApplied.emit(this.currentFilterName);
+      this.renderFilter();
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.renderFilter();
   }
 
   applyRandomFilter() {
@@ -35,4 +45,25 @@ export class FiltersComponent implements OnInit {
     this.http.get('/apply-filter/' + this.currentFilterName);
   }
 
+  async renderFilter() {
+    if (this.currentFilterName !== 'noFilter') {
+      const imgObj = new Image();
+      imgObj.onload = async () => {
+        const blob = await applyPresetOnImage(imgObj, presetsMapping[this.currentFilterName]());
+        this.photoWithFilterRef.nativeElement.src = URL.createObjectURL(blob);
+        this.displayPhotoWithFilter = true;
+      };
+      imgObj.crossOrigin = 'Anonymous';
+      imgObj.src = this.photoSrc;
+    } else {
+      this.displayPhotoWithFilter = false;
+    }
+  }
+
+  async onFilterApplied(filterName: string) {
+    this.currentFilterName = filterName;
+    if (this.photoWithoutFilterRef) {
+      this.renderFilter();
+    }
+  }
 }

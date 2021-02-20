@@ -1,0 +1,18 @@
+<ion-row class="ion-justify-content-center" *ngIf="cropping">
+    <image-cropper
+            [maintainAspectRatio]="false"
+            [imageURL]="photoSrc"
+    ></image-cropper>
+    <ion-button (click)="cancelCrop()" size="auto" color="danger">
+        Cancel
+    </ion-button>
+    <ion-button (click)="okCrop()" size="auto" color="success">
+        Ok
+    </ion-button>
+</ion-row>
+<ion-row class="ion-justify-content-start">
+    <ion-button (click)="startCrop()" *ngIf="!cropping">
+        <ion-icon slot="start" name="crop-outline"></ion-icon>
+        Crop
+    </ion-button>
+</ion-row>
