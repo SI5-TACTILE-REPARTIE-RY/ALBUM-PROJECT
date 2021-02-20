@@ -1,7 +1,6 @@
 <ion-grid>
-	<app-filters [photoSrc]="photoSrc" *ngIf="displayAppFilters"></app-filters>
-	<app-cropper [photoSrc]="photoSrc"
-				 (cropStarted)="displayAppFilters = false"
+	<app-filters *ngIf="displayAppFilters"></app-filters>
+	<app-cropper (cropStarted)="displayAppFilters = false"
 				 (cropFinished)="displayAppFilters = true">
 	</app-cropper>
 </ion-grid>

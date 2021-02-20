@@ -4,6 +4,7 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Outpu
 import { FilterNames } from './filter-names';
 import {SessionService} from '../../../services/session.service';
 import {applyPresetOnImage, presetsMapping} from 'instagram-filters';
+import {PhotoService} from '../../../services/photo.service';
 
 @Component({
   selector: 'app-filters',
@@ -11,30 +12,34 @@ import {applyPresetOnImage, presetsMapping} from 'instagram-filters';
   styleUrls: ['./filters.component.scss'],
 })
 export class FiltersComponent implements OnInit, AfterViewInit {
-  @Input() public photoSrc: string;
-
   @ViewChild('photoWithoutFilter') photoWithoutFilterRef: ElementRef;
   @ViewChild('photoWithFilter') photoWithFilterRef: ElementRef;
+  @ViewChild('photoContainer') photoContainerRef: ElementRef;
 
+  public photoSrc: string;
   public currentFilterName = 'noFilter';
   public displayPhotoWithFilter: boolean;
   public filterNames: string[] = FilterNames;
 
-  constructor(private wsService: WsService, private sessionService: SessionService, private http: HttpService) { }
+  constructor(private wsService: WsService,
+              private sessionService: SessionService,
+              private http: HttpService,
+              private photoService: PhotoService) { }
 
   ngOnInit() {
-    this.wsService.filterAppliedEvent().subscribe(async (filterName: string) => {
-      this.currentFilterName = filterName;
-      this.renderFilter();
-    });
-    this.sessionService.session$.subscribe(session => {
-      this.currentFilterName = session.currentFilterName;
+    this.photoService.photoSrc$.subscribe(photoSrc => this.photoSrc = photoSrc);
+    this.sessionService.currentFilterName$.subscribe(currentFilterName => {
+      this.currentFilterName = currentFilterName;
       this.renderFilter();
     });
   }
 
   ngAfterViewInit(): void {
     this.renderFilter();
+  }
+
+  loaded() {
+    this.photoService.updatePhotoHeightPx$(this.photoContainerRef.nativeElement.offsetHeight);
   }
 
   applyRandomFilter() {

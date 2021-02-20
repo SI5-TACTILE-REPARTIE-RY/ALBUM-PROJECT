@@ -13,14 +13,8 @@ export class UsersOnlineComponent implements OnInit {
   constructor(private wsService: WsService, private sessionService: SessionService) { }
 
   ngOnInit() {
-    this.wsService.usersEvent().subscribe((users: number) => {
-      this.users = users;
-    });
-
-    this.sessionService.session$.subscribe(session => {
-      if (session) {
-        this.users = session.users;
-      }
+    this.sessionService.users$.subscribe(users => {
+        this.users = users;
     });
   }
 }

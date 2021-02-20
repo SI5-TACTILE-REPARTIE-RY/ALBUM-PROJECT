@@ -15,6 +15,7 @@ import { WsService } from '../services/ws.service';
 import { TestComponent } from '../test/test.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CropperComponent } from './photo-editor/cropper/cropper.component';
+import { PhotoService } from '../services/photo.service';
 
 @NgModule({
   imports: [
@@ -33,6 +34,6 @@ import { CropperComponent } from './photo-editor/cropper/cropper.component';
     TestComponent,
     CropperComponent
   ],
-  providers: [HTTP, HttpService, SessionService, WsService]
+  providers: [HTTP, HttpService, SessionService, WsService, PhotoService]
 })
 export class HomePageModule {}

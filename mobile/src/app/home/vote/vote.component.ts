@@ -1,18 +1,19 @@
 import { WsService } from '../../services/ws.service';
-import {Component, AfterViewInit, EventEmitter, Output, Input} from '@angular/core';
+import {Component, AfterViewInit, EventEmitter, Output, Input, OnInit} from '@angular/core';
 import {DeviceMotion, DeviceMotionAccelerationData} from '@ionic-native/device-motion/ngx';
+import {PhotoService} from '../../services/photo.service';
 
 @Component({
   selector: 'app-vote',
   templateUrl: './vote.component.html',
   styleUrls: ['./vote.component.scss'],
 })
-export class VoteComponent implements AfterViewInit {
+export class VoteComponent implements OnInit, AfterViewInit {
   @Output() downVote = new EventEmitter<void>();
   @Output() upVote = new EventEmitter<void>();
   @Output() noVote = new EventEmitter<void>();
 
-  @Input() public photoSrc: string;
+  public photoSrc: string;
 
   watchOffset = 10;
 
@@ -24,7 +25,13 @@ export class VoteComponent implements AfterViewInit {
   thumbsDownColorDefault = 'grey';
   thumbsDownColor = 'grey';
 
-  constructor(private deviceMotion: DeviceMotion, private wsService: WsService) { }
+  constructor(private deviceMotion: DeviceMotion,
+              private wsService: WsService,
+              private photoService: PhotoService) { }
+
+  ngOnInit(): void {
+    this.photoService.photoSrc$.subscribe(photoSrc => this.photoSrc = photoSrc);
+  }
 
   ngAfterViewInit(): void {
     this.startWatchingMotion();

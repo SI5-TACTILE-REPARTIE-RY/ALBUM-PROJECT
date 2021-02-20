@@ -9,15 +9,16 @@ import { Session, SessionService} from '../services/session.service';
 })
 export class TestComponent implements OnInit {
 
+  test: string = null;
   userID: string = null;
   session: Session = null;
 
   constructor(private socket: Socket, private sessionService: SessionService) {
-    this.sessionService.session$.subscribe((session: Session) => {
-      this.session = session;
+    this.sessionService.test$.subscribe((test: string) => {
+      this.test = test;
     });
-    this.sessionService.userID$.subscribe((id: string) => {
-      this.userID = id;
+    this.sessionService.userID$.subscribe((userID: string) => {
+      this.userID = userID;
     });
   }
 
@@ -32,27 +33,15 @@ export class TestComponent implements OnInit {
   }
 
   canUnlock(): boolean {
-    if (this.session) {
-      return this.session.test === this.userID;
-    } else {
-      return false;
-    }
+    return this.test === this.userID;
   }
 
   isUnlocked(): boolean {
-    if (this.session) {
-      return this.session.test === null;
-    } else {
-      return false;
-    }
+    return this.test === null;
   }
 
   isLocked(): boolean {
-    if (this.session) {
-      return this.session.test !== this.userID && this.session.test !== null;
-    } else {
-      return false;
-    }
+    return this.test !== this.userID && this.test !== null;
   }
 
   lock() {

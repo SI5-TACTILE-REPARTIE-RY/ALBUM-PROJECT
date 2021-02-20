@@ -2,7 +2,7 @@ import { HttpService } from './http.service';
 import { WsService } from './ws.service';
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {Socket} from 'ngx-socket-io';
+import {environment} from '../../environments/environment';
 
 export interface Session {
   users: number;
@@ -17,25 +17,41 @@ export interface Session {
   providedIn: 'root'
 })
 export class SessionService {
+  users$ = new BehaviorSubject<number>(0);
+  sessionStarted$ = new BehaviorSubject<boolean>(false);
+  currentPhotoName$ = new BehaviorSubject<string>(null);
+  currentFilterName$ = new BehaviorSubject<string>('noFilter');
+  photoKept$ = new BehaviorSubject<boolean>(null);
+  test$ = new BehaviorSubject<string>(null);
 
   userID$ = new BehaviorSubject<string>(null);
   private get userID(): string {
     return this.userID$.getValue();
   }
 
-  session$ = new BehaviorSubject<Session>(null);
-
   constructor(
       private wsService: WsService,
-      private http: HttpService,
-      private socket: Socket
+      private http: HttpService
   ) {
     this.connect();
+    this.updateSession();
     this.wsService.albumSessionResetEvent().subscribe(() => {
       this.updateSession();
     });
-    this.socket.fromEvent<Session>('refresh').subscribe((session: Session) => {
-      this.session$.next(session);
+    this.wsService.sessionRefreshed().subscribe((session: Session) => {
+      this.setFromSession(session);
+    });
+    this.wsService.filterAppliedEvent().subscribe(async (filterName: string) => {
+      this.currentFilterName$.next(filterName);
+    });
+    this.wsService.usersEvent().subscribe((users: number) => {
+      this.users$.next(users);
+    });
+    this.wsService.albumSessionStartedEvent().subscribe(() => {
+      this.sessionStarted$.next(true);
+    });
+    this.wsService.voteFinishedEvent().subscribe((photoKept: boolean) => {
+      this.photoKept$.next(photoKept);
     });
   }
 
@@ -60,6 +76,16 @@ export class SessionService {
   }
 
   async updateSession() {
-    this.session$.next(await this.http.get('/session'));
+    const session = await this.http.get('/session');
+    this.setFromSession(session);
+  }
+
+  setFromSession(session: Session) {
+    this.users$.next(session.users);
+    this.sessionStarted$.next(session.started);
+    this.currentPhotoName$.next(session.currentPhotoName);
+    this.currentFilterName$.next(session.currentFilterName);
+    this.photoKept$.next(session.photoKept);
+    this.test$.next(session.test);
   }
 }

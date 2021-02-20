@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import {Session} from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,9 @@ export class WsService {
 
   sendDownVote() {
     this.socket.emit('downVote');
+  }
+
+  sessionRefreshed() {
+    return this.socket.fromEvent<Session>('refresh');
   }
 }

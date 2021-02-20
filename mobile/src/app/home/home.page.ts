@@ -4,7 +4,8 @@ import {Component, OnInit} from '@angular/core';
 import { WsService } from '../services/ws.service';
 import {environment} from '../../environments/environment';
 import { Plugins } from '@capacitor/core';
-import {Platform} from "@ionic/angular";
+import {Platform} from '@ionic/angular';
+import {PhotoService} from '../services/photo.service';
 const { App } = Plugins;
 
 
@@ -15,7 +16,6 @@ const { App } = Plugins;
 })
 export class HomePage implements OnInit {
 
-  public photoSrc: string;
   public photoKept: boolean;
   public albumSessionStarted = false;
 
@@ -34,22 +34,12 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.sessionService.session$.subscribe((session: Session) => {
-      if (session) {
-        this.albumSessionStarted = session.started;
-        this.photoKept = session.photoKept;
-        this.photoSrc = environment.SERVER_ADDRESS + '/' + session.currentPhotoName;
-      }
+    this.sessionService.photoKept$.subscribe((photoKept: boolean) => {
+      this.photoKept = photoKept;
     });
-
-    this.sessionService.updateSession();
-
-    this.wsService.albumSessionStartedEvent().subscribe((currentPhotoName: string) => {
-      this.albumSessionStarted = true;
-      this.photoSrc = environment.SERVER_ADDRESS + '/' + currentPhotoName;
+    this.sessionService.sessionStarted$.subscribe((sessionStarted: boolean) => {
+        this.albumSessionStarted = sessionStarted;
     });
-
-    this.wsService.voteFinishedEvent().subscribe((photoKept: boolean) => this.photoKept = photoKept);
   }
 
   startAlbumSession() {

@@ -1,18 +1,22 @@
 <ion-row class="ion-justify-content-center">
-  <img [ngStyle]="{'display': !displayPhotoWithFilter ? 'block' : 'none'}"
-       [src]="photoSrc"
-       alt="Photo without filter"
-       crossOrigin="Anonymous"
-       #photoWithoutFilter/>
-  <img [ngStyle]="{'display': displayPhotoWithFilter ? 'block' : 'none'}"
-       alt="Photo with a filter"
-       crossOrigin="Anonymous"
-       #photoWithFilter/>
+  <div #photoContainer>
+    <img [ngStyle]="{'display': !displayPhotoWithFilter ? 'block' : 'none'}"
+         [src]="photoSrc"
+         (load)="loaded()"
+         alt="Photo without filter"
+         crossOrigin="Anonymous"
+         #photoWithoutFilter/>
+    <img [ngStyle]="{'display': displayPhotoWithFilter ? 'block' : 'none'}"
+         (load)="loaded()"
+         alt="Photo with a filter"
+         crossOrigin="Anonymous"
+         #photoWithFilter/>
+  </div>
 </ion-row>
 <ion-row class="ion-justify-content-start">
-  <ion-button (click)="applyRandomFilter()">
+  <ion-button (click)="applyRandomFilter()" style="width: 180px">
     <ion-icon slot="start" name="color-filter-outline"></ion-icon>
-    Apply a random filter
+    Random filter
   </ion-button>
   
   <ion-select value="notifications" interface="popover" [(ngModel)]="currentFilterName" (ionChange)="applyFilter()">

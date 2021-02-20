@@ -19,14 +19,13 @@
 		</ion-row>
 	</ion-grid>
 
-	<app-vote [photoSrc]="photoSrc"
-			  (upVote)="onUpVote()"
+	<app-vote (upVote)="onUpVote()"
 			  (downVote)="onDownVote()"
 			  (noVote)="onNoVote()"
 			  *ngIf="albumSessionStarted && !photoKept">
 	</app-vote>
 
-	<app-photo-editor [photoSrc]="photoSrc" *ngIf="albumSessionStarted && photoKept"></app-photo-editor>
+	<app-photo-editor *ngIf="albumSessionStarted && photoKept"></app-photo-editor>
 
 	<app-test></app-test>
 

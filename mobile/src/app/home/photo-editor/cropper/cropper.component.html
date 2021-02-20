@@ -2,6 +2,7 @@
     <image-cropper
             [maintainAspectRatio]="false"
             [imageURL]="photoSrc"
+            [ngStyle]="{'min-height': photoHeightPx + 'px'}"
     ></image-cropper>
     <ion-button (click)="cancelCrop()" size="auto" color="danger">
         Cancel
@@ -11,7 +12,7 @@
     </ion-button>
 </ion-row>
 <ion-row class="ion-justify-content-start">
-    <ion-button (click)="startCrop()" *ngIf="!cropping">
+    <ion-button style="width: 180px" (click)="startCrop()" *ngIf="!cropping">
         <ion-icon slot="start" name="crop-outline"></ion-icon>
         Crop
     </ion-button>
