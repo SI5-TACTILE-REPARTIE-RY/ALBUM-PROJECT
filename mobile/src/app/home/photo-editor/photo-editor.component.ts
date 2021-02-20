@@ -1,31 +1,39 @@
-import { Component, ElementRef, Input, ViewChild, AfterViewInit } from '@angular/core';
-import {applyPresetOnImage, applyPresetOnImageURL, presetsMapping} from 'instagram-filters';
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {applyPresetOnImage, presetsMapping} from 'instagram-filters';
 
 @Component({
   selector: 'app-photo-editor',
   templateUrl: './photo-editor.component.html',
   styleUrls: ['./photo-editor.component.scss'],
 })
-export class PhotoEditorComponent {
-  @ViewChild('photoRef') photoRef: ElementRef;
+export class PhotoEditorComponent implements AfterViewInit {
+  @ViewChild('photoWithoutFilter') photoWithoutFilterRef: ElementRef;
+  @ViewChild('photoWithFilter') photoWithFilterRef: ElementRef;
 
   @Input() public photoSrc: string;
   public currentFilterName = 'noFilter';
   public photoFile: File;
+  public displayPhotoWithFilter: boolean;
 
   constructor() { }
 
-  renderFilter() {
+  ngAfterViewInit(): void {
+    this.renderFilter();
+  }
+
+  async renderFilter() {
     if (this.currentFilterName !== 'noFilter') {
       const imgObj = new Image();
       imgObj.onload = async () => {
         const blob = await applyPresetOnImage(imgObj, presetsMapping[this.currentFilterName]());
+        this.photoWithFilterRef.nativeElement.src = URL.createObjectURL(blob);
         this.photoFile = this.blobToFile(blob);
+        this.displayPhotoWithFilter = true;
       };
       imgObj.crossOrigin = 'Anonymous';
       imgObj.src = this.photoSrc;
     } else {
-      this.photoFile = null;
+      this.displayPhotoWithFilter = false;
     }
   }
 
@@ -38,6 +46,8 @@ export class PhotoEditorComponent {
 
   async onFilterApplied(filterName: string) {
     this.currentFilterName = filterName;
-    this.renderFilter();
+    if (this.photoWithoutFilterRef) {
+      this.renderFilter();
+    }
   }
 }

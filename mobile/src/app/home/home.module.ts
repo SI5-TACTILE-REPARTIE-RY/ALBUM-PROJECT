@@ -31,6 +31,6 @@ import {ImageCropperModule} from 'ngx-image-cropper';
     FiltersComponent,
     TestComponent
   ],
-  providers: [HTTP]
+  providers: [HTTP, HttpService, SessionService, WsService]
 })
 export class HomePageModule {}
