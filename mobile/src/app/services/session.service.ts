@@ -2,7 +2,7 @@ import { HttpService } from './http.service';
 import { WsService } from './ws.service';
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {Socket} from "ngx-socket-io";
+import {Socket} from 'ngx-socket-io';
 
 export interface Session {
   users: number;
