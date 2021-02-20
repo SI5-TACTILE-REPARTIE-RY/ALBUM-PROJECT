@@ -1,7 +1,5 @@
-import { VoteService } from '../services/vote.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { applyPresetOnImage, presetsMapping } from 'instagram-filters';
 import { environment } from 'src/environments/environment';
 import {SessionService} from '../services/session.service';
 
@@ -14,27 +12,22 @@ export class HomeComponent implements OnInit {
   @ViewChild('albumImage') albumImage: ElementRef;
 
   public users = 0;
-  public albumSessionStarted = false;
-  public photoSrc: string = null;
-  public currentFilterName = 'noFilter';
-  public currentFilterApplied = true;
+  public albumSessionStarted = null;
   displayVote = true;
 
-  constructor(private sessionService: SessionService, private http: HttpClient, private voteSerive: VoteService) { }
+  constructor(private sessionService: SessionService, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.sessionService.users$.subscribe((users: number) => {
       this.users = users;
     });
 
-    this.sessionService.sessionStarted$.subscribe(() => {
-      this.albumSessionStarted = true;
+    this.sessionService.sessionStarted$.subscribe((sessionStarted) => {
+      this.albumSessionStarted = sessionStarted;
     });
 
     this.sessionService.photoKept$.subscribe(photoKept => {
-      if (photoKept !== null) {
-        this.displayVote = false;
-      }
+        this.displayVote = photoKept === null;
     });
   }
 

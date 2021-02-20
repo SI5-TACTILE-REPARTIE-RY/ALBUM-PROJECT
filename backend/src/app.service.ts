@@ -31,11 +31,7 @@ export class AppService {
 
   voteFinished(photoKept: boolean): void {
     CurrentSession.photoKept = photoKept;
-    if (CurrentSession.photoKept) {
-      this.wsGateway.voteFinished(CurrentSession.photoKept);
-    } else {
-      this.resetAlbumSession();
-    }
+    this.wsGateway.voteFinished(CurrentSession.photoKept);
   }
 
   testLock(id: string) {

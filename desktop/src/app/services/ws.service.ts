@@ -38,4 +38,8 @@ export class WsService {
     return this.socket.fromEvent<Session>('refresh');
   }
 
+  voteFinishedEvent(): Observable<any> {
+    return this.socket.fromEvent('vote-finished');
+  }
+
 }

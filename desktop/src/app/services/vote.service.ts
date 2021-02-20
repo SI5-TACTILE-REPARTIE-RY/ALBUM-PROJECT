@@ -11,7 +11,7 @@ export class VoteService {
 
   voteRunning$: BehaviorSubject<boolean> = new BehaviorSubject(null);
 
-  constructor(private http: HttpClient, private sessionService: SessionService) { }
+  constructor(private http: HttpClient) { }
 
   startVote(): void {
     this.voteRunning$.next(true);
@@ -22,7 +22,6 @@ export class VoteService {
   }
 
   keepPhoto(photoKept: boolean): void {
-    this.sessionService.photoKept$.next(photoKept);
     this.http.get(`${environment.SERVER_ADDRESS}/vote-finished?photoKept=${photoKept}`).subscribe();
   }
 }

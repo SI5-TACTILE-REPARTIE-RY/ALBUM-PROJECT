@@ -1,8 +1,8 @@
-<ng-container *ngIf="!albumSessionStarted">
+<ng-container *ngIf="albumSessionStarted === false">
     <button class="button3d" (click)="startAlbumSession()">Start album session</button>
 </ng-container>
 
-<ng-container *ngIf="albumSessionStarted && photoSrc">
+<ng-container *ngIf="albumSessionStarted === true">
     <app-photo></app-photo>
     <app-vote *ngIf="displayVote"></app-vote>
 </ng-container>

@@ -2,7 +2,6 @@ import { HttpService } from './http.service';
 import { WsService } from './ws.service';
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {environment} from '../../environments/environment';
 
 export interface Session {
   users: number;
@@ -47,11 +46,15 @@ export class SessionService {
     this.wsService.usersEvent().subscribe((users: number) => {
       this.users$.next(users);
     });
-    this.wsService.albumSessionStartedEvent().subscribe(() => {
+    this.wsService.albumSessionStartedEvent().subscribe((photoName: string) => {
       this.sessionStarted$.next(true);
+      this.currentPhotoName$.next(photoName);
     });
     this.wsService.voteFinishedEvent().subscribe((photoKept: boolean) => {
       this.photoKept$.next(photoKept);
+      if (!photoKept) {
+        this.http.get('/reset-album-session');
+      }
     });
   }
 
