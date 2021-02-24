@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {PhotoService} from '../../../services/photo.service';
+import {ImageCroppedEvent} from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-cropper',
@@ -34,6 +35,10 @@ export class CropperComponent implements OnInit {
   okCrop() {
     this.cropping = false;
     this.cropFinished.emit();
+  }
+
+  cropped(event: ImageCroppedEvent) {
+    this.photoService.cropped(event.imagePosition);
   }
 
 }

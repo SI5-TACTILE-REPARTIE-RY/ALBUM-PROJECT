@@ -42,4 +42,8 @@ export class WsService {
     return this.socket.fromEvent('vote-finished');
   }
 
+  croppedEvent(): Observable<any> {
+    return this.socket.fromEvent('cropped');
+  }
+
 }

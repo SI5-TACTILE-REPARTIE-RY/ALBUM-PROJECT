@@ -1,8 +1,9 @@
 import { WsService } from './ws.service';
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
+import {CropperPosition} from 'ngx-image-cropper';
 
 export interface Session {
   users: number;
@@ -22,6 +23,7 @@ export class SessionService {
   currentFilterName$ = new BehaviorSubject<string>('noFilter');
   photoKept$ = new BehaviorSubject<boolean>(null);
   photoSrc$ = new BehaviorSubject<string>(null);
+  cropperPosition$ = new Subject<CropperPosition>();
 
   constructor(
     private wsService: WsService,
@@ -46,6 +48,9 @@ export class SessionService {
     });
     this.wsService.voteFinishedEvent().subscribe((photoKept) => {
       this.photoKept$.next(photoKept);
+    });
+    this.wsService.croppedEvent().subscribe((position) => {
+      this.cropperPosition$.next(position);
     });
     this.currentPhotoName$.subscribe((photoName) => {
       this.photoSrc$.next(environment.SERVER_ADDRESS + '/' + photoName);

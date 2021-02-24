@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import {Session} from './session.service';
+import {CropperPosition} from 'ngx-image-cropper';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +40,9 @@ export class WsService {
 
   sessionRefreshed() {
     return this.socket.fromEvent<Session>('refresh');
+  }
+
+  sendCropped(position: CropperPosition) {
+    this.socket.emit('cropped', position);
   }
 }

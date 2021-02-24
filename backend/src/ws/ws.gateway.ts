@@ -44,6 +44,12 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit('downVote');
   }
 
+  @SubscribeMessage('cropped')
+  async cropped(client, position) {
+    console.log(`GATEWAY :: RECEIVE :: CROPPED EVENT`);
+    client.broadcast.emit('cropped', position);
+  }
+
   async albumSessionStarted(photoSrc: string) {
     console.log(`GATEWAY :: EMIT :: START ALBUM SESSION`);
     this.server.emit('album-session-started', photoSrc);

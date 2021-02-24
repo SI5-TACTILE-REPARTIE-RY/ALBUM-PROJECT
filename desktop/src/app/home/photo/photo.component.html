@@ -1,5 +1,11 @@
+<image-cropper
+  [imageURL]="photoSrcInitial"
+  style="z-index: -1"
+  autoCrop="false"
+  #cropper
+></image-cropper>
+<div id="background"></div>
 <img [ngStyle]="{'display': !displayPhotoWithFilter ? 'block' : 'none'}"
-     [src]="photoSrc"
      alt="Photo without filter"
      crossOrigin="Anonymous"
      #photoWithoutFilter/>

@@ -2,6 +2,7 @@
     <image-cropper
             [maintainAspectRatio]="false"
             [imageURL]="photoSrc"
+            (imageCropped)="cropped($event)"
             [ngStyle]="{'min-height': photoHeightPx + 'px'}"
     ></image-cropper>
     <ion-button (click)="cancelCrop()" size="auto" color="danger">
