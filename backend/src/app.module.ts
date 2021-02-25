@@ -5,7 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { WsModule } from './ws/ws.module';
 import { UsersService } from './users/users.service';
-import { TestService } from './test/test.service';
+import { LockService } from './test/lock.service';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { TestService } from './test/test.service';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, TestService, UsersService],
-  exports: [AppService, TestService, UsersService],
+  providers: [AppService, LockService, UsersService],
+  exports: [AppService, LockService, UsersService],
 })
 export class AppModule {}

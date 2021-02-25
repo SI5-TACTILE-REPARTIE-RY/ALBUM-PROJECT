@@ -13,8 +13,8 @@
     </ion-button>
 </ion-row>
 <ion-row class="ion-justify-content-start">
-    <ion-button style="width: 180px" (click)="startCrop()" *ngIf="!cropping">
+    <app-lock-button buttonName="cropper" style="width: 180px" (clicked)="startCrop()" *ngIf="!cropping">
         <ion-icon slot="start" name="crop-outline"></ion-icon>
         Crop
-    </ion-button>
+    </app-lock-button>
 </ion-row>

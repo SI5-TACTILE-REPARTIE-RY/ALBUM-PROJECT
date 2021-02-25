@@ -47,6 +47,7 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('cropped')
   async cropped(client, position) {
     console.log(`GATEWAY :: RECEIVE :: CROPPED EVENT`);
+    CurrentSession.cropperPosition = position;
     client.broadcast.emit('cropped', position);
   }
 

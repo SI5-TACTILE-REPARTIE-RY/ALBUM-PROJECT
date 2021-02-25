@@ -11,6 +11,7 @@ export interface Session {
   currentPhotoName: string;
   currentFilterName: string;
   photoKept: boolean;
+  cropperPosition: CropperPosition;
 }
 
 @Injectable({
@@ -68,5 +69,6 @@ export class SessionService {
     this.currentPhotoName$.next(session.currentPhotoName);
     this.currentFilterName$.next(session.currentFilterName);
     this.photoKept$.next(session.photoKept);
+    this.cropperPosition$.next(session.cropperPosition);
   }
 }

@@ -33,16 +33,4 @@ export class AppService {
     CurrentSession.photoKept = photoKept;
     this.wsGateway.voteFinished(CurrentSession.photoKept);
   }
-
-  testLock(id: string) {
-    CurrentSession.test = id;
-    this.wsGateway.refresh();
-  }
-
-  testUnlock(id: string) {
-    if (CurrentSession.test === id) {
-      CurrentSession.test = null;
-    }
-    this.wsGateway.refresh();
-  }
 }

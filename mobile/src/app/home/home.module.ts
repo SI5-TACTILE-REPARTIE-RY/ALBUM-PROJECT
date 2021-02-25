@@ -12,7 +12,7 @@ import { FiltersComponent } from './photo-editor/filters/filters.component';
 import { HttpService } from '../services/http.service';
 import { SessionService } from '../services/session.service';
 import { WsService } from '../services/ws.service';
-import { TestComponent } from '../test/test.component';
+import { LockButtonComponent } from '../lock-button/lock-button.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CropperComponent } from './photo-editor/cropper/cropper.component';
 import { PhotoService } from '../services/photo.service';
@@ -31,7 +31,7 @@ import { PhotoService } from '../services/photo.service';
     VoteComponent,
     PhotoEditorComponent,
     FiltersComponent,
-    TestComponent,
+    LockButtonComponent,
     CropperComponent
   ],
   providers: [HTTP, HttpService, SessionService, WsService, PhotoService]

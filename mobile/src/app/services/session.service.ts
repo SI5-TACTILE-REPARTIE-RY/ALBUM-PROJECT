@@ -9,7 +9,7 @@ export interface Session {
   currentPhotoName: string;
   currentFilterName: string;
   photoKept: boolean;
-  test: string;
+  cropperOwnerId: string;
 }
 
 @Injectable({
@@ -21,7 +21,7 @@ export class SessionService {
   currentPhotoName$ = new BehaviorSubject<string>(null);
   currentFilterName$ = new BehaviorSubject<string>('noFilter');
   photoKept$ = new BehaviorSubject<boolean>(null);
-  test$ = new BehaviorSubject<string>(null);
+  cropperOwnerId$ = new BehaviorSubject<string>(null);
 
   userID$ = new BehaviorSubject<string>(null);
   private get userID(): string {
@@ -66,12 +66,12 @@ export class SessionService {
     });
   }
 
-  lock() {
-    this.http.get(`/lock/${this.userID}`);
+  lock(buttonName: string) {
+    this.http.get(`/lock/${buttonName}/${this.userID}`);
   }
 
-  unlock() {
-    this.http.get(`/unlock/${this.userID}`);
+  unlock(buttonName: string) {
+    this.http.get(`/unlock/${buttonName}/${this.userID}`);
   }
 
   disconnect(): Promise<any> {
@@ -89,6 +89,12 @@ export class SessionService {
     this.currentPhotoName$.next(session.currentPhotoName);
     this.currentFilterName$.next(session.currentFilterName);
     this.photoKept$.next(session.photoKept);
-    this.test$.next(session.test);
+    this.cropperOwnerId$.next(session.cropperOwnerId);
+  }
+
+  buttonOwnerId(buttonName: string) {
+    if (buttonName === 'cropper') {
+      return this.cropperOwnerId$;
+    }
   }
 }

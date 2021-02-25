@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {PhotoService} from '../../../services/photo.service';
 import {ImageCroppedEvent} from 'ngx-image-cropper';
+import {SessionService} from '../../../services/session.service';
 
 @Component({
   selector: 'app-cropper',
@@ -15,7 +16,7 @@ export class CropperComponent implements OnInit {
   public photoSrc: string;
   public photoHeightPx: number;
 
-  constructor(private photoService: PhotoService) { }
+  constructor(private photoService: PhotoService, private sessionService: SessionService) { }
 
   ngOnInit() {
     this.photoService.photoSrc$.subscribe(photoSrc => this.photoSrc = photoSrc);
@@ -30,11 +31,13 @@ export class CropperComponent implements OnInit {
   cancelCrop() {
     this.cropping = false;
     this.cropFinished.emit();
+    this.sessionService.unlock('cropper');
   }
 
   okCrop() {
     this.cropping = false;
     this.cropFinished.emit();
+    this.sessionService.unlock('cropper');
   }
 
   cropped(event: ImageCroppedEvent) {

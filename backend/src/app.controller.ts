@@ -4,14 +4,14 @@ import { AppService } from './app.service';
 import { CurrentSession, Session } from './session';
 
 import { UsersService } from './users/users.service';
-import { TestService } from './test/test.service';
+import { LockService } from './test/lock.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private usersService: UsersService,
-    private testService: TestService,
+    private lockService: LockService,
   ) {}
 
   @Get()
@@ -33,16 +33,22 @@ export class AppController {
     this.usersService.removeUser(id);
   }
 
-  @Get('lock/:id')
-  getLock(@Param('id') id: string): void {
-    console.log(`REST :: LOCK :: ${id}`);
-    this.testService.lockService(id);
+  @Get('lock/:buttonName/:userId')
+  getLock(
+    @Param('buttonName') buttonName: string,
+    @Param('userId') userId: string,
+  ): void {
+    console.log(`REST :: LOCK ${buttonName} :: ${userId}`);
+    this.lockService.lock(buttonName, userId);
   }
 
-  @Get('unlock/:id')
-  getUnlock(@Param('id') id: string): void {
-    console.log(`REST :: UNLOCK :: ${id}`);
-    this.testService.unlockService(id);
+  @Get('unlock/:buttonName/:userId')
+  getUnlock(
+    @Param('buttonName') buttonName: string,
+    @Param('userId') userId: string,
+  ): void {
+    console.log(`REST :: UNLOCK ${buttonName} :: ${userId}`);
+    this.lockService.unlock(buttonName, userId);
   }
 
   @Get('session')

@@ -4,7 +4,8 @@ export const CurrentSession: Session = {
   currentPhotoName: null,
   currentFilterName: 'noFilter',
   photoKept: null,
-  test: null,
+  cropperOwnerId: null,
+  cropperPosition: null,
 };
 
 export interface Session {
@@ -13,5 +14,6 @@ export interface Session {
   currentPhotoName: string;
   currentFilterName: string;
   photoKept: boolean;
-  test: string;
+  cropperOwnerId: string;
+  cropperPosition: any;
 }
