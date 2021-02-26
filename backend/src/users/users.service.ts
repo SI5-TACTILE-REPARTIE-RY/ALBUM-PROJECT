@@ -1,19 +1,26 @@
 import { Injectable } from '@nestjs/common';
+import { WsGateway } from '../ws/ws.gateway';
+import { CurrentSession } from '../session';
 
 @Injectable()
 export class UsersService {
-  users = [];
+  constructor(private readonly wsGateway: WsGateway) {}
 
-  newUser(): string {
-    const id = Math.random().toString(36).substr(2, 9);
-    this.users.push(id);
-    return id;
+  newUser(userLogin: string): void {
+    const index = CurrentSession.users.indexOf(userLogin);
+    if (index > -1) {
+      throw new Error('User named' + userLogin + ' already exists!');
+    } else {
+      CurrentSession.users.push(userLogin);
+      this.wsGateway.usersUpdate(CurrentSession.users);
+    }
   }
 
-  removeUser(id: string): void {
-    const index = this.users.indexOf(id);
+  removeUser(userLogin: string): void {
+    const index = CurrentSession.users.indexOf(userLogin);
     if (index > -1) {
-      this.users.splice(index, 1);
+      CurrentSession.users.splice(index, 1);
     }
+    this.wsGateway.usersUpdate(CurrentSession.users);
   }
 }

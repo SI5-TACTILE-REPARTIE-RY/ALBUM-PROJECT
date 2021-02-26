@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import {SessionService} from '../services/session.service';
+import {SwalComponent} from '@sweetalert2/ngx-sweetalert2';
+import {WsService} from '../services/ws.service';
+
 
 @Component({
   selector: 'app-home',
@@ -10,15 +13,17 @@ import {SessionService} from '../services/session.service';
 })
 export class HomeComponent implements OnInit {
   @ViewChild('albumImage') albumImage: ElementRef;
+  @ViewChild('photoKeptMessage') photoKeptMessageRef: SwalComponent;
+  @ViewChild('photoRejectedMessage') photoRejectedMessageRef: SwalComponent;
 
-  public users = 0;
+  public users: string[] = [];
   public albumSessionStarted = null;
   displayVote = true;
 
-  constructor(private sessionService: SessionService, private http: HttpClient) { }
+  constructor(private sessionService: SessionService, private http: HttpClient, private wsService: WsService) { }
 
   ngOnInit(): void {
-    this.sessionService.users$.subscribe((users: number) => {
+    this.sessionService.users$.subscribe((users: string[]) => {
       this.users = users;
     });
 
@@ -27,7 +32,15 @@ export class HomeComponent implements OnInit {
     });
 
     this.sessionService.photoKept$.subscribe(photoKept => {
-        this.displayVote = photoKept === null;
+      this.displayVote = photoKept === null;
+    });
+
+    this.wsService.voteFinishedEvent().subscribe(photoKept => {
+      if (photoKept) {
+        this.photoKeptMessageRef.fire();
+      } else if (photoKept) {
+        this.photoRejectedMessageRef.fire();
+      }
     });
   }
 

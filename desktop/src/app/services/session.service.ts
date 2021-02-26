@@ -6,7 +6,7 @@ import {environment} from '../../environments/environment';
 import {CropperPosition} from 'ngx-image-cropper';
 
 export interface Session {
-  users: number;
+  users: string[];
   started: boolean;
   currentPhotoName: string;
   currentFilterName: string;
@@ -18,7 +18,7 @@ export interface Session {
   providedIn: 'root'
 })
 export class SessionService {
-  users$ = new BehaviorSubject<number>(0);
+  users$ = new BehaviorSubject<string[]>([]);
   sessionStarted$ = new BehaviorSubject<boolean>(null);
   currentPhotoName$ = new BehaviorSubject<string>(null);
   currentFilterName$ = new BehaviorSubject<string>('noFilter');
@@ -40,7 +40,7 @@ export class SessionService {
     this.wsService.filterAppliedEvent().subscribe(async (filterName: string) => {
       this.currentFilterName$.next(filterName);
     });
-    this.wsService.usersEvent().subscribe((users: number) => {
+    this.wsService.usersEvent().subscribe((users: string[]) => {
       this.users$.next(users);
     });
     this.wsService.albumSessionStartedEvent().subscribe((photoName) => {

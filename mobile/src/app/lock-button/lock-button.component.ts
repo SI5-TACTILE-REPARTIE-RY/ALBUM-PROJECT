@@ -11,7 +11,7 @@ export class LockButtonComponent implements OnInit {
   @Input() buttonName: string;
   @Output() clicked = new EventEmitter<void>();
   buttonOwnerId: string = null;
-  userID: string = null;
+  userLogin: string = null;
 
   constructor(private socket: Socket, private sessionService: SessionService) {}
 
@@ -19,13 +19,13 @@ export class LockButtonComponent implements OnInit {
     this.sessionService.buttonOwnerId(this.buttonName).subscribe((buttonOwnerId: string) => {
       this.buttonOwnerId = buttonOwnerId;
     });
-    this.sessionService.userID$.subscribe((userID: string) => {
-      this.userID = userID;
+    this.sessionService.userLogin$.subscribe((userLogin: string) => {
+      this.userLogin = userLogin;
     });
   }
 
   isLocked(): boolean {
-    return this.buttonOwnerId !== this.userID && !!this.buttonOwnerId;
+    return this.buttonOwnerId !== this.userLogin && !!this.buttonOwnerId;
   }
 
   lock() {

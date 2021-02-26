@@ -21,6 +21,8 @@ export class HomePage implements OnInit {
 
   ionContentBorderDefault = 'white';
   ionContentBorder = 'white';
+  userConnected = false;
+  userLogin = '';
 
   constructor(
       private wsService: WsService,
@@ -39,6 +41,11 @@ export class HomePage implements OnInit {
     });
     this.sessionService.sessionStarted$.subscribe((sessionStarted: boolean) => {
         this.albumSessionStarted = sessionStarted;
+    });
+    this.sessionService.userLogin$.subscribe((userLogin: string) => {
+      if (userLogin) {
+        this.userConnected = true;
+      }
     });
   }
 
@@ -60,5 +67,13 @@ export class HomePage implements OnInit {
 
   public onDownVote(): void {
     this.ionContentBorder = 'orangered';
+  }
+
+  public loginChanged(event): void {
+    this.userLogin = event.detail.value;
+  }
+
+  public connect(): void {
+    this.sessionService.connect(this.userLogin);
   }
 }

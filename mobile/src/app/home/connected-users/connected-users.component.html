@@ -1,0 +1,10 @@
+<ion-card>
+  <ion-card-header>
+    Users connected
+  </ion-card-header>
+  <ion-card-content>
+    <ion-chip *ngFor="let user of users">
+      <ion-label>{{user}}</ion-label>
+    </ion-chip>
+  </ion-card-content>
+</ion-card>

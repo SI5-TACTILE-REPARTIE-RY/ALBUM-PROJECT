@@ -1,10 +1,26 @@
 <ng-container *ngIf="albumSessionStarted === false">
-    <button class="button3d" (click)="startAlbumSession()">Start album session</button>
+  <app-connected-users *ngIf="!albumSessionStarted"></app-connected-users>
+  <button class="button3d" (click)="startAlbumSession()">Start album</button>
 </ng-container>
 
 <ng-container *ngIf="albumSessionStarted === true">
-    <app-photo></app-photo>
-    <app-vote *ngIf="displayVote"></app-vote>
+  <app-photo></app-photo>
+  <app-vote *ngIf="displayVote"></app-vote>
 </ng-container>
 
-<app-vote-result-message></app-vote-result-message>
+<swal
+  #photoKeptMessage
+  title="Photo kept!"
+  icon="success"
+  [showCancelButton]="false"
+  [showConfirmButton]="false"
+  [timer]="2000">
+</swal>
+<swal
+  #photoRejectedMessage
+  title="Photo rejected"
+  icon="error"
+  [showCancelButton]="false"
+  [showConfirmButton]="false"
+  [timer]="2000">
+</swal>

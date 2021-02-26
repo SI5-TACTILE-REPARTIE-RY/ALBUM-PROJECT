@@ -16,14 +16,10 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   async handleConnection() {
     console.log('GATEWAY :: CONNECTION');
-    CurrentSession.users++;
-    this.server.emit('users', CurrentSession.users);
   }
 
   async handleDisconnect() {
     console.log('GATEWAY :: DISCONNECT');
-    CurrentSession.users--;
-    this.server.emit('users', CurrentSession.users);
   }
 
   @SubscribeMessage('message')
@@ -74,5 +70,10 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   refresh() {
     console.log(`GATEWAY :: EMIT :: ASK REFRESH :: ${CurrentSession}`);
     this.server.emit('refresh', CurrentSession);
+  }
+
+  usersUpdate(users) {
+    console.log(`GATEWAY :: EMIT :: USERS UPDATE :: ${users}`);
+    this.server.emit('users', users);
   }
 }

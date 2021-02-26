@@ -20,11 +20,10 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('connect')
-  getConnection(): string {
-    const id = this.usersService.newUser();
-    console.log(`REST :: CONNECT :: ${id}`);
-    return JSON.stringify(id);
+  @Get('connect/:userLogin')
+  getConnection(@Param('userLogin') userLogin: string): void {
+    console.log(`REST :: CONNECT :: ${userLogin}`);
+    this.usersService.newUser(userLogin);
   }
 
   @Get('disconnect/:id')
@@ -33,22 +32,22 @@ export class AppController {
     this.usersService.removeUser(id);
   }
 
-  @Get('lock/:buttonName/:userId')
+  @Get('lock/:buttonName/:userLogin')
   getLock(
     @Param('buttonName') buttonName: string,
-    @Param('userId') userId: string,
+    @Param('userLogin') userLogin: string,
   ): void {
-    console.log(`REST :: LOCK ${buttonName} :: ${userId}`);
-    this.lockService.lock(buttonName, userId);
+    console.log(`REST :: LOCK ${buttonName} :: ${userLogin}`);
+    this.lockService.lock(buttonName, userLogin);
   }
 
-  @Get('unlock/:buttonName/:userId')
+  @Get('unlock/:buttonName/:userLogin')
   getUnlock(
     @Param('buttonName') buttonName: string,
-    @Param('userId') userId: string,
+    @Param('userLogin') userLogin: string,
   ): void {
-    console.log(`REST :: UNLOCK ${buttonName} :: ${userId}`);
-    this.lockService.unlock(buttonName, userId);
+    console.log(`REST :: UNLOCK ${buttonName} :: ${userLogin}`);
+    this.lockService.unlock(buttonName, userLogin);
   }
 
   @Get('session')

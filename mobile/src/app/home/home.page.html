@@ -1,21 +1,38 @@
 <ion-header>
 	<ion-toolbar color="tertiary">
-		<ion-title>Shake Your Album !</ion-title>
+		<ion-title>Shake Your Album!</ion-title>
 	</ion-toolbar>
 </ion-header>
 
 <ion-content [ngStyle]="{'border-color': ionContentBorder}">
 	<ion-grid>
 		<ion-row class="ion-justify-content-center">
-			<app-users-online *ngIf="!albumSessionStarted"></app-users-online>
+			<ion-col size="12" *ngIf="!albumSessionStarted && !userConnected">
+				<ion-item>
+					<ion-label position="floating">Your name</ion-label>
+					<ion-input required (ionChange)="loginChanged($event)"></ion-input>
+				</ion-item>
+			</ion-col>
 
-			<ion-button color="success" *ngIf="!albumSessionStarted" (click)="startAlbumSession()">
-				Start album session
-			</ion-button>
+			<ion-col size="auto" *ngIf="!albumSessionStarted && !userConnected" >
+				<ion-button color="success" (click)="connect()">
+					Connect
+				</ion-button>
+			</ion-col>
 
-			<ion-button color="warning" *ngIf="albumSessionStarted" (click)="resetAlbumSession()">
-				Reset album session
-			</ion-button>
+			<app-connected-users *ngIf="!albumSessionStarted && userConnected"></app-connected-users>
+			<ion-col size="auto" *ngIf="!albumSessionStarted && userConnected">
+				<ion-button (click)="startAlbumSession()">
+					Start album
+				</ion-button>
+			</ion-col>
+			<img src="/assets/album.png"  *ngIf="!albumSessionStarted && userConnected">
+
+			<ion-col size="auto" *ngIf="albumSessionStarted">
+				<ion-button color="warning" (click)="resetAlbumSession()">
+					Reset album
+				</ion-button>
+			</ion-col>
 		</ion-row>
 	</ion-grid>
 
