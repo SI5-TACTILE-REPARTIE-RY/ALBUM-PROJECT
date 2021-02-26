@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import {SessionService} from '../services/session.service';
 import {SwalComponent} from '@sweetalert2/ngx-sweetalert2';
 import {WsService} from '../services/ws.service';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -20,7 +21,10 @@ export class HomeComponent implements OnInit {
   public albumSessionStarted = null;
   displayVote = true;
 
-  constructor(private sessionService: SessionService, private http: HttpClient, private wsService: WsService) { }
+  constructor(private sessionService: SessionService,
+              private http: HttpClient,
+              private wsService: WsService,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.sessionService.users$.subscribe((users: string[]) => {

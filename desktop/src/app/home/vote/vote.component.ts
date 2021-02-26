@@ -22,6 +22,6 @@ export class VoteComponent implements OnInit {
   }
 
   getUpVote(result: number): void {
-    this.upVote = 100;
+    this.upVote = result;
   }
 }

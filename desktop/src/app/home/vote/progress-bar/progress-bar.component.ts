@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, Output, ViewChild, EventEmitter, OnDestroy } from '@angular/core';
 import { WsService } from '../../../services/ws.service';
 import { VoteService } from '../../../services/vote.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-progress-bar',
@@ -40,19 +41,35 @@ export class ProgressBarComponent implements AfterViewInit, OnDestroy {
   };
   remainingPathColor = this.COLOR_CODES.alert.color;
 
-  constructor(private wsService: WsService, private voteService: VoteService) {}
+  showNextMessage = true;
+
+  constructor(private wsService: WsService, private voteService: VoteService, private toastr: ToastrService) {}
 
   ngAfterViewInit(): void {
 
     // Listen socket
     switch (this.observe) {
       case 'upVote':
-        this.wsService.upVoteEvent().subscribe(next => {
+        this.wsService.upVoteEvent().subscribe(userLogin => {
+          if (this.showNextMessage) {
+            this.showNextMessage = false;
+            setTimeout(() => {
+              this.toastr.success(userLogin + ' votes to keep the photo');
+              this.showNextMessage = true;
+            }, 1000);
+          }
           ++this.shake;
         });
         break;
       case 'downVote':
-        this.wsService.downVoteEvent().subscribe(next => {
+        this.wsService.downVoteEvent().subscribe(userLogin => {
+          if (this.showNextMessage) {
+            this.showNextMessage = false;
+            setTimeout(() => {
+              this.toastr.error(userLogin + ' votes to reject the photo');
+              this.showNextMessage = true;
+            }, 1000);
+          }
           ++this.shake;
         });
         break;

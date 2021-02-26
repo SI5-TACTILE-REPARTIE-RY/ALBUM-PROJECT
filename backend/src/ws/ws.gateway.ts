@@ -29,15 +29,15 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('upVote')
-  async onUpVote() {
+  async onUpVote(client, userLogin) {
     console.log(`GATEWAY :: RECEIVE :: UP VOTE SHAKE`);
-    this.server.emit('upVote');
+    client.broadcast.emit('upVote', userLogin);
   }
 
   @SubscribeMessage('downVote')
-  async onDownVote() {
+  async onDownVote(client, userLogin) {
     console.log(`GATEWAY :: RECEIVE :: DOWN VOTE SHAKE`);
-    this.server.emit('downVote');
+    client.broadcast.emit('downVote', userLogin);
   }
 
   @SubscribeMessage('cropped')

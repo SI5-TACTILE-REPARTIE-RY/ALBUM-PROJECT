@@ -21,6 +21,7 @@ import { ConnectedUsersComponent } from './home/connected-users/connected-users.
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
+import {ToastrModule} from 'ngx-toastr';
 const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
 
 @NgModule({
@@ -42,7 +43,8 @@ const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
     ImageCropperModule,
     MatCardModule,
     MatChipsModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
