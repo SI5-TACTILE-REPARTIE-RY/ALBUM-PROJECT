@@ -40,11 +40,7 @@ export class HomeComponent implements OnInit {
     });
 
     this.wsService.voteFinishedEvent().subscribe(photoKept => {
-      if (photoKept) {
-        this.photoKeptMessageRef.fire();
-      } else if (photoKept) {
-        this.photoRejectedMessageRef.fire();
-      }
+      photoKept ? this.photoKeptMessageRef.fire() : this.photoRejectedMessageRef.fire();
     });
   }
 
