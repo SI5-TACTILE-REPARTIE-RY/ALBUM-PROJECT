@@ -70,6 +70,7 @@ export class SessionService {
   }
 
   unlock(buttonName: string) {
+    this.cropperOwnerId$.next(null);
     this.http.get(`/unlock/${buttonName}/${this.userLogin}`);
   }
 
@@ -83,6 +84,7 @@ export class SessionService {
   }
 
   setFromSession(session: Session) {
+    console.log(session);
     this.users$.next(session.users);
     this.sessionStarted$.next(session.started);
     this.currentPhotoName$.next(session.currentPhotoName);
