@@ -23,8 +23,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private sessionService: SessionService,
               private http: HttpClient,
-              private wsService: WsService,
-              private toastr: ToastrService) { }
+              private wsService: WsService) { }
 
   ngOnInit(): void {
     this.sessionService.users$.subscribe((users: string[]) => {

@@ -54,7 +54,9 @@ export class ProgressBarComponent implements AfterViewInit, OnDestroy {
           if (this.showNextMessage) {
             this.showNextMessage = false;
             setTimeout(() => {
-              this.toastr.success(userLogin + ' votes to keep the photo');
+              this.toastr.success(userLogin + ' votes to keep the photo', userLogin + ' voted', {
+                positionClass: 'toast-top-left'
+              });
               this.showNextMessage = true;
             }, 1000);
           }
@@ -66,7 +68,9 @@ export class ProgressBarComponent implements AfterViewInit, OnDestroy {
           if (this.showNextMessage) {
             this.showNextMessage = false;
             setTimeout(() => {
-              this.toastr.error(userLogin + ' votes to reject the photo');
+              this.toastr.error(userLogin + ' votes to reject the photo', userLogin + ' voted', {
+                positionClass: 'toast-top-right'
+              });
               this.showNextMessage = true;
             }, 1000);
           }

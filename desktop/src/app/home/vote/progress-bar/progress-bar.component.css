@@ -28,3 +28,11 @@
 }
 
 
+::ng-deep .toast-success {
+  margin-left: 80px !important;
+}
+
+::ng-deep .toast-error {
+  margin-right: 80px !important;
+}
+
