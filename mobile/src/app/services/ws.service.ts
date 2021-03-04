@@ -31,10 +31,12 @@ export class WsService {
   }
 
   sendUpVote(userLogin: string) {
+    console.log('UP');
     this.socket.emit('upVote', userLogin);
   }
 
   sendDownVote(userLogin: string) {
+    console.log('DOWN');
     this.socket.emit('downVote', userLogin);
   }
 

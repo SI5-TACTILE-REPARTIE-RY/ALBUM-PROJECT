@@ -40,13 +40,9 @@ export class AppService {
   voteFinished(photoKept: boolean): void {
     CurrentSession.photoKept = photoKept;
     this.wsGateway.voteFinished(CurrentSession.photoKept);
-    // if (CurrentSession.photoKept) {
-    //   this.wsGateway.voteFinished(CurrentSession.photoKept);
-    //   CurrentSession.chosenPhoto.push(CurrentSession.currentPhotoName);
-    // } else {
-    //   CurrentSession.chosenPhoto.push(CurrentSession.currentPhotoName);
-    //   this.resetAlbumSession();
-    // }
+    if (!photoKept) {
+      this.nextPhoto();
+    }
   }
 
   nextPhoto(): void {

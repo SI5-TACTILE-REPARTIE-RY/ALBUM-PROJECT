@@ -1,20 +1,22 @@
 import { WsService } from '../../services/ws.service';
-import {Component, AfterViewInit, EventEmitter, Output, Input, OnInit} from '@angular/core';
+import {Component, AfterViewInit, EventEmitter, Output, Input, OnInit, OnDestroy} from '@angular/core';
 import {DeviceMotion, DeviceMotionAccelerationData} from '@ionic-native/device-motion/ngx';
 import {PhotoService} from '../../services/photo.service';
 import {SessionService} from '../../services/session.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-vote',
   templateUrl: './vote.component.html',
   styleUrls: ['./vote.component.scss'],
 })
-export class VoteComponent implements OnInit, AfterViewInit {
+export class VoteComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() downVote = new EventEmitter<void>();
   @Output() upVote = new EventEmitter<void>();
   @Output() noVote = new EventEmitter<void>();
 
   public photoSrc: string;
+  public watchAccelerationSubscription: Subscription;
 
   watchOffset = 10;
 
@@ -40,7 +42,7 @@ export class VoteComponent implements OnInit, AfterViewInit {
   }
 
   startWatchingMotion(): void {
-    this.deviceMotion.watchAcceleration({ frequency: 100 }).subscribe((acceleration: DeviceMotionAccelerationData) => {
+    this.watchAccelerationSubscription = this.deviceMotion.watchAcceleration({ frequency: 100 }).subscribe((acceleration: DeviceMotionAccelerationData) => {
       this.emitShake(acceleration);
     });
   }
@@ -72,5 +74,9 @@ export class VoteComponent implements OnInit, AfterViewInit {
       this.thumbsDownColor = this.thumbsDownColorDefault;
       this.thumbsUpColor = 'lightgreen';
     }
+  }
+
+  ngOnDestroy(): void {
+    this.watchAccelerationSubscription.unsubscribe();
   }
 }

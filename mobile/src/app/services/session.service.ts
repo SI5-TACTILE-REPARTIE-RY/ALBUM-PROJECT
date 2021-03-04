@@ -52,9 +52,6 @@ export class SessionService {
     });
     this.wsService.voteFinishedEvent().subscribe((photoKept: boolean) => {
       this.photoKept$.next(photoKept);
-      if (!photoKept) {
-        this.http.get('/reset-album-session');
-      }
     });
   }
 
@@ -62,7 +59,7 @@ export class SessionService {
     this.http.get('/connect/' + userLogin).then(() => {
       this.userLogin$.next(userLogin);
     }).catch(error => {
-      console.log('ERROR::', error);
+      console.log('ERROR::', JSON.stringify(error));
     });
   }
 
