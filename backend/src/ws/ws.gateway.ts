@@ -81,4 +81,9 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     console.log(`GATEWAY :: EMIT :: USERS UPDATE :: ${users}`);
     this.server.emit('users', users);
   }
+
+  nextPhoto() {
+    console.log(`GATEWAY :: EMIT :: NEXT PHOTO`);
+    this.server.emit('next-photo');
+  }
 }

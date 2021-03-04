@@ -58,4 +58,8 @@ export class WsService {
     return this.socket.fromEvent<string>('reversed-filter-echo');
   }
 
+  nextPhoto(): Observable<void> {
+    return this.socket.fromEvent('next-photo');
+  }
+
 }

@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CurrentSession } from './models/session';
 import { WsGateway } from './ws/ws.gateway';
+import {FiltersService} from "./filters/filters.service";
 
 @Injectable()
 export class AppService {
   filterStack = ['noFilter'];
   interval = null;
 
-  constructor(private readonly wsGateway: WsGateway) {}
+  constructor(private readonly wsGateway: WsGateway, private filtersService: FiltersService) {}
 
   getHello(): string {
     return 'Hello World!';
@@ -58,5 +59,7 @@ export class AppService {
     CurrentSession.cropperPosition = null;
     CurrentSession.photoKept = null;
     this.wsGateway.refresh();
+    this.wsGateway.nextPhoto();
+    this.filtersService.cleanFilters();
   }
 }

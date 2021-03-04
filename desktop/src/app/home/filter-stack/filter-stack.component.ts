@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WsService } from '../../services/ws.service';
-import {PhotoService} from "../../services/photo.service";
+import {PhotoService} from '../../services/photo.service';
 
 @Component({
   selector: 'app-filter-stack',
@@ -18,6 +18,10 @@ export class FilterStackComponent implements OnInit {
       const map = new Map<string, string[]>(JSON.parse(next));
       if (map.size - 1 < this.index) { this.index = 0; }
       this.filters = map;
+    });
+    this.ws.nextPhoto().subscribe(() => {
+      this.filters = new Map<string, string[]>();
+      this.photoService.applyFilter(null);
     });
   }
 

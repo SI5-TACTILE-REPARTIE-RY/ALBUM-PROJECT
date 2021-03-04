@@ -19,6 +19,11 @@ export class FiltersService implements OnApplicationBootstrap {
     });
   }
 
+  cleanFilters(): void {
+    this.filters = new Map<string, string>();
+    this.filters$ = new BehaviorSubject<Map<string, string>>(this.filters);
+  }
+
   chooseFilter(userID, filter) {
     if (filter !== 'noFilter') {
       this.filters.set(userID, filter);
