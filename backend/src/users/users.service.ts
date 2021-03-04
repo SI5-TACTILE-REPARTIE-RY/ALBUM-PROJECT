@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { WsGateway } from '../ws/ws.gateway';
-import { CurrentSession } from '../session';
+import { CurrentSession } from '../models/session';
 
 @Injectable()
 export class UsersService {

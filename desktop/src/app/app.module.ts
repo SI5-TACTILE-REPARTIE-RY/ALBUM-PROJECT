@@ -1,9 +1,16 @@
+import {NgModule} from '@angular/core';
+
 // MODULES
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { ToastrModule } from 'ngx-toastr';
 
 // COMPONENTS
 import { AppComponent } from './app.component';
@@ -13,17 +20,11 @@ import { TimerComponent } from './home/vote/timer/timer.component';
 import { ProgressBarComponent } from './home/vote/progress-bar/progress-bar.component';
 
 // OTHERS
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
-import { VoteResultMessageComponent } from './home/vote-result-message/vote-result-message.component';
-import { ImageCropperModule } from 'ngx-image-cropper';
 import { PhotoComponent } from './home/photo/photo.component';
 import { FilterStackComponent } from './home/filter-stack/filter-stack.component';
 import { ConnectedUsersComponent } from './home/connected-users/connected-users.component';
-import {MatCardModule} from '@angular/material/card';
-import {MatChipsModule} from '@angular/material/chips';
-import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
-import {ToastrModule} from 'ngx-toastr';
+
 const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
 
 @NgModule({
@@ -33,7 +34,6 @@ const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
     VoteComponent,
     TimerComponent,
     ProgressBarComponent,
-    VoteResultMessageComponent,
     PhotoComponent,
     FilterStackComponent,
     PhotoComponent,

@@ -12,7 +12,9 @@ export class FiltersController {
     @Param('userID') userID: string,
     @Param('filterName') filterName: string,
   ) {
-    console.log(`${this.TAG} :: GET :: APPLY FILTER :: ${filterName}`);
+    console.log(
+      `${this.TAG} :: GET :: APPLY FILTER :: ${userID} --> ${filterName}`,
+    );
     this.filterService.chooseFilter(userID, filterName);
   }
 }

@@ -6,7 +6,7 @@ import { WsGateway } from '../ws/ws.gateway';
 @Injectable()
 export class SessionService {
   session: Session = {
-    users: 0,
+    users: [],
     started: false,
     currentPhotoName: null,
     currentFilterName: 'noFilter',

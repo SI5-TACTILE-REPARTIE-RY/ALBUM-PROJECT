@@ -26,7 +26,8 @@ export class FiltersComponent implements OnInit, AfterViewInit {
               private sessionService: SessionService,
               private http: HttpService,
               private photoService: PhotoService) {
-    this.sessionService.userID$.subscribe(next => {
+    this.sessionService.userLogin$.subscribe(next => {
+      console.log(next);
       this.userID = next;
     });
   }
