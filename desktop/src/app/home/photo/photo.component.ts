@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import {applyPresetOnImage, presetsMapping} from 'instagram-filters';
 import {SessionService} from '../../services/session.service';
 import {ImageCropperComponent} from 'ngx-image-cropper';
-import {PhotoService} from "../../services/photo.service";
+import {PhotoService} from '../../services/photo.service';
 
 @Component({
   selector: 'app-photo',
@@ -28,10 +28,6 @@ export class PhotoComponent implements OnInit, AfterViewInit {
       this.photoSrcInitial = photoSrc;
       this.photoSrc = photoSrc;
     });
-    // this.sessionService.currentFilterName$.subscribe(currentFilterName => {
-    //   this.currentFilterName = currentFilterName;
-    //   this.renderFilter();
-    // });
     this.photoService.currentFilterName$.subscribe(next => {
       this.currentFilterName = next;
       this.renderFilter();

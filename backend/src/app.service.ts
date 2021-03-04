@@ -28,6 +28,7 @@ export class AppService {
     CurrentSession.cropperOwnerId = null;
     CurrentSession.cropperPosition = null;
     CurrentSession.photoKept = null;
+    this.filtersService.clearFilters();
     this.wsGateway.albumSessionReset();
   }
 
@@ -60,6 +61,6 @@ export class AppService {
     CurrentSession.photoKept = null;
     this.wsGateway.refresh();
     this.wsGateway.nextPhoto();
-    this.filtersService.cleanFilters();
+    this.filtersService.clearFilters();
   }
 }

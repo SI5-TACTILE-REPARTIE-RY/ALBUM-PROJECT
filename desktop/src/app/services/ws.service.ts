@@ -62,4 +62,8 @@ export class WsService {
     return this.socket.fromEvent('next-photo');
   }
 
+  clearFiltersEvent(): Observable<void> {
+    return this.socket.fromEvent('clear-filters');
+  }
+
 }

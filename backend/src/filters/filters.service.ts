@@ -19,9 +19,13 @@ export class FiltersService implements OnApplicationBootstrap {
     });
   }
 
-  cleanFilters(): void {
+  clearFilters(): void {
     this.filters = new Map<string, string>();
     this.filters$ = new BehaviorSubject<Map<string, string>>(this.filters);
+    this.filters$.subscribe((next) => {
+      this.gateway.echoReversedFilters(this.reverseMap(next));
+    });
+    this.gateway.clearFilters();
   }
 
   chooseFilter(userID, filter) {

@@ -19,9 +19,11 @@ export class FilterStackComponent implements OnInit {
       if (map.size - 1 < this.index) { this.index = 0; }
       this.filters = map;
     });
-    this.ws.nextPhoto().subscribe(() => {
+    this.ws.clearFiltersEvent().subscribe(() => {
+      this.index = 0;
       this.filters = new Map<string, string[]>();
       this.photoService.applyFilter(null);
+      clearInterval(this.interval);
     });
   }
 
