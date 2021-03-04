@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import {Session} from './session.service';
 import {CropperPosition} from 'ngx-image-cropper';
-import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'

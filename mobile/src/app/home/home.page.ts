@@ -45,6 +45,8 @@ export class HomePage implements OnInit {
     this.sessionService.userLogin$.subscribe((userLogin: string) => {
       if (userLogin) {
         this.userConnected = true;
+      } else {
+        this.userConnected = false;
       }
     });
   }

@@ -6,7 +6,7 @@ export const CurrentSession: Session = {
   photoKept: null,
   cropperOwnerId: null,
   cropperPosition: null,
-  photos: ['india-photo1.jpg', 'india-photo2.jpg', 'india-photo3.jpg', 'india-photo4.jpg'],
+  photos: ['india-photo1.jpg', 'india-photo2.jpg', 'india-photo3.jpg', 'india-photo4.jpg']
 };
 
 export interface Session {

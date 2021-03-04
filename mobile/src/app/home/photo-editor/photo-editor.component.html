@@ -3,7 +3,11 @@
 	<app-cropper (cropStarted)="displayAppFilters = false"
 				 (cropFinished)="displayAppFilters = true">
 	</app-cropper>
-	<ion-button (click)="nextPhoto()" size="auto" color="success">
-		Photo suivante
-	</ion-button>
+	<ion-row style="margin-top: 150px" class="ion-justify-content-center" *ngIf="displayAppFilters">
+		<ion-col size="auto">
+			<ion-button (click)="nextPhoto()" color="success">
+				Photo suivante
+			</ion-button>
+		</ion-col>
+	</ion-row>
 </ion-grid>

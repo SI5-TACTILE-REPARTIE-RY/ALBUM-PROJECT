@@ -56,7 +56,7 @@ export class AppService {
     CurrentSession.currentFilterName = 'noFilter';
     CurrentSession.cropperOwnerId = null;
     CurrentSession.cropperPosition = null;
-    CurrentSession.cropperPosition = null;
+    CurrentSession.photoKept = null;
     this.wsGateway.refresh();
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import {SessionService} from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,14 @@ export class PhotoService {
   currentFilterName = 'noFilter';
   currentFilterName$ = new BehaviorSubject(this.currentFilterName);
 
-  constructor() { }
+  constructor(private sessionService: SessionService) {
+    this.sessionService.currentFilterName$.subscribe(currentFilterName => {
+      if (this.currentFilterName !== currentFilterName) {
+        this.currentFilterName = currentFilterName;
+        this.currentFilterName$.next(currentFilterName);
+      }
+    });
+  }
 
   applyFilter(filterName: string): void {
     if (!filterName) {

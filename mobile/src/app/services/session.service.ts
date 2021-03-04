@@ -34,6 +34,7 @@ export class SessionService {
   ) {
     this.updateSession();
     this.wsService.albumSessionResetEvent().subscribe(() => {
+      this.userLogin$.next(null);
       this.updateSession();
     });
     this.wsService.sessionRefreshed().subscribe((session: Session) => {
@@ -84,7 +85,6 @@ export class SessionService {
   }
 
   setFromSession(session: Session) {
-    console.log(session);
     this.users$.next(session.users);
     this.sessionStarted$.next(session.started);
     this.currentPhotoName$.next(session.currentPhotoName);
