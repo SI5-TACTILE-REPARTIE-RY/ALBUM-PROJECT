@@ -16,6 +16,7 @@ export class FiltersComponent implements OnInit, AfterViewInit {
   @ViewChild('photoWithFilter') photoWithFilterRef: ElementRef;
   @ViewChild('photoContainer') photoContainerRef: ElementRef;
 
+  userID = null;
   public photoSrc: string;
   public currentFilterName = 'noFilter';
   public displayPhotoWithFilter: boolean;
@@ -24,7 +25,11 @@ export class FiltersComponent implements OnInit, AfterViewInit {
   constructor(private wsService: WsService,
               private sessionService: SessionService,
               private http: HttpService,
-              private photoService: PhotoService) { }
+              private photoService: PhotoService) {
+    this.sessionService.userID$.subscribe(next => {
+      this.userID = next;
+    });
+  }
 
   ngOnInit() {
     this.photoService.photoSrc$.subscribe(photoSrc => this.photoSrc = photoSrc);
@@ -47,7 +52,8 @@ export class FiltersComponent implements OnInit, AfterViewInit {
   }
 
   applyFilter() {
-    this.http.get('/apply-filter/' + this.currentFilterName);
+    this.http.get(`/filters/${this.userID}/${this.currentFilterName}`);
+    this.renderFilter();
   }
 
   async renderFilter() {
