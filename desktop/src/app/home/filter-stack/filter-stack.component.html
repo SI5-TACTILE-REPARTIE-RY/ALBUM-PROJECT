@@ -1,0 +1,6 @@
+<div class="container">
+    <div *ngFor="let item of filters | keyvalue; let i = index;">
+      <div *ngIf="i === index" class="selected-filter">{{item.key}} --> {{item.value}}</div>
+      <div *ngIf="i !== index">{{item.key}} --> {{item.value}}</div>
+    </div>
+</div>

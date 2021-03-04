@@ -46,4 +46,16 @@ export class WsService {
     return this.socket.fromEvent('cropped');
   }
 
+  filterStack(): Observable<string[]> {
+    return this.socket.fromEvent<string[]>('filter-stack');
+  }
+
+  echoFilterEvent(): Observable<string> {
+    return this.socket.fromEvent<string>('filter-echo');
+  }
+
+  echoReversedFilterEvent(): Observable<string> {
+    return this.socket.fromEvent<string>('reversed-filter-echo');
+  }
+
 }

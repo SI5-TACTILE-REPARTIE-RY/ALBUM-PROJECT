@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment';
 import { VoteResultMessageComponent } from './home/vote-result-message/vote-result-message.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { PhotoComponent } from './home/photo/photo.component';
+import { FilterStackComponent } from './home/filter-stack/filter-stack.component';
 const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
 
 @NgModule({
@@ -28,7 +29,8 @@ const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
     TimerComponent,
     ProgressBarComponent,
     VoteResultMessageComponent,
-    PhotoComponent
+    PhotoComponent,
+    FilterStackComponent
   ],
   imports: [
     BrowserModule,
