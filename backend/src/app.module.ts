@@ -6,6 +6,10 @@ import { AppService } from './app.service';
 import { WsModule } from './ws/ws.module';
 import { UsersService } from './users/users.service';
 import { LockService } from './test/lock.service';
+import { FiltersService } from './filters/filters.service';
+import { SessionService } from './session/session.service';
+import { FiltersController } from './filters/filters.controller';
+import { FiltersModule } from './filters/filters.module';
 
 @Module({
   imports: [
@@ -13,9 +17,16 @@ import { LockService } from './test/lock.service';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
+    FiltersModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, LockService, UsersService],
+  controllers: [AppController, FiltersController],
+  providers: [
+    AppService,
+    LockService,
+    UsersService,
+    FiltersService,
+    SessionService,
+  ],
   exports: [AppService, LockService, UsersService],
 })
 export class AppModule {}

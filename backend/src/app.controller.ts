@@ -1,7 +1,7 @@
 import { Param, Query } from '@nestjs/common';
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CurrentSession, Session } from './session';
+import { CurrentSession, Session } from './models/session';
 
 import { UsersService } from './users/users.service';
 import { LockService } from './test/lock.service';

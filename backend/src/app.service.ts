@@ -1,10 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { CurrentSession } from './session';
+import { CurrentSession } from './models/session';
 import { WsGateway } from './ws/ws.gateway';
+import { SessionService } from './session/session.service';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly wsGateway: WsGateway) {}
+  filterStack = ['noFilter'];
+  interval = null;
+
+  constructor(
+    private readonly wsGateway: WsGateway,
+    private sessionService: SessionService,
+  ) {}
 
   getHello(): string {
     return 'Hello World!';
@@ -25,8 +32,8 @@ export class AppService {
   }
 
   applyFilter(filterName: string): void {
-    CurrentSession.currentFilterName = filterName;
-    this.wsGateway.filterApplied(filterName);
+    this.filterStack.push(filterName);
+    this.wsGateway.filterStack(this.filterStack);
   }
 
   voteFinished(photoKept: boolean): void {

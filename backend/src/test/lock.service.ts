@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CurrentSession } from '../session';
+import { CurrentSession } from '../models/session';
 import { WsGateway } from '../ws/ws.gateway';
 
 @Injectable()

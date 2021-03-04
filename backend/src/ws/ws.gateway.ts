@@ -8,7 +8,7 @@ import {
 } from '@nestjs/websockets';
 
 // OTHER
-import { CurrentSession } from '../session';
+import { CurrentSession } from '../models/session';
 
 @WebSocketGateway()
 export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -69,6 +69,11 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async voteFinished(photoKept: boolean) {
     console.log(`GATEWAY :: EMIT :: VOTE FINISHED :: ${photoKept}`);
     this.server.emit('vote-finished', photoKept);
+  }
+
+  filterStack(filterStack: string[]) {
+    console.log(`GATEWAY :: EMIT :: REFRESH FILTER STACK :: ${filterStack}`);
+    this.server.emit('filter-stack', filterStack);
   }
 
   refresh() {
