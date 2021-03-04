@@ -79,4 +79,10 @@ export class AppController {
     console.log(`REST :: GET :: VOTE FINISHED :: ${photoKept}`);
     this.appService.voteFinished(photoKept === 'true');
   }
+
+  @Get('next-photo')
+  nextPhoto(): void {
+    console.log(`REST :: GET :: NEXT PHOTO`);
+    this.appService.nextPhoto();
+  }
 }

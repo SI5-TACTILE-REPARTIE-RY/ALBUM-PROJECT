@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {applyPresetOnImage, presetsMapping} from 'instagram-filters';
+import {Component, OnInit} from '@angular/core';
+import {SessionService} from '../../services/session.service';
 
 @Component({
   selector: 'app-photo-editor',
@@ -9,7 +9,11 @@ import {applyPresetOnImage, presetsMapping} from 'instagram-filters';
 export class PhotoEditorComponent implements OnInit {
   displayAppFilters = true;
 
-  constructor() { }
+  constructor(private sessionService: SessionService) { }
 
   ngOnInit(): void {}
+
+  nextPhoto(): void {
+    this.sessionService.nextPhoto();
+  }
 }

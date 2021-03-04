@@ -98,4 +98,8 @@ export class SessionService {
       return this.cropperOwnerId$;
     }
   }
+
+  nextPhoto(): void {
+    this.http.get(`/next-photo`);
+  }
 }

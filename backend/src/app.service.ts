@@ -1,17 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CurrentSession } from './models/session';
 import { WsGateway } from './ws/ws.gateway';
-import { SessionService } from './session/session.service';
 
 @Injectable()
 export class AppService {
   filterStack = ['noFilter'];
   interval = null;
 
-  constructor(
-    private readonly wsGateway: WsGateway,
-    private sessionService: SessionService,
-  ) {}
+  constructor(private readonly wsGateway: WsGateway) {}
 
   getHello(): string {
     return 'Hello World!';
@@ -19,7 +15,7 @@ export class AppService {
 
   startAlbumSession(): void {
     CurrentSession.started = true;
-    CurrentSession.currentPhotoName = 'india-photo.jpg';
+    CurrentSession.currentPhotoName = CurrentSession.photos[0];
     this.wsGateway.albumSessionStarted(CurrentSession.currentPhotoName);
   }
 
@@ -49,5 +45,18 @@ export class AppService {
     //   CurrentSession.chosenPhoto.push(CurrentSession.currentPhotoName);
     //   this.resetAlbumSession();
     // }
+  }
+
+  nextPhoto(): void {
+    let currentPhotoIndex = CurrentSession.photos.indexOf(CurrentSession.currentPhotoName);
+    if (currentPhotoIndex === CurrentSession.photos.length - 1) {
+      // session finished
+    }
+    CurrentSession.currentPhotoName = CurrentSession.photos[++currentPhotoIndex];
+    CurrentSession.currentFilterName = 'noFilter';
+    CurrentSession.cropperOwnerId = null;
+    CurrentSession.cropperPosition = null;
+    CurrentSession.cropperPosition = null;
+    this.wsGateway.refresh();
   }
 }
