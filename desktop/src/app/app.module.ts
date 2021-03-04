@@ -19,6 +19,11 @@ import { VoteResultMessageComponent } from './home/vote-result-message/vote-resu
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { PhotoComponent } from './home/photo/photo.component';
 import { FilterStackComponent } from './home/filter-stack/filter-stack.component';
+import { ConnectedUsersComponent } from './home/connected-users/connected-users.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatChipsModule} from '@angular/material/chips';
+import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
+import {ToastrModule} from 'ngx-toastr';
 const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
 
 @NgModule({
@@ -30,7 +35,9 @@ const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
     ProgressBarComponent,
     VoteResultMessageComponent,
     PhotoComponent,
-    FilterStackComponent
+    FilterStackComponent,
+    PhotoComponent,
+    ConnectedUsersComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +45,11 @@ const config: SocketIoConfig = { url: environment.SERVER_ADDRESS, options: {}};
     SocketIoModule.forRoot(config),
     HttpClientModule,
     BrowserAnimationsModule,
-    ImageCropperModule
+    ImageCropperModule,
+    MatCardModule,
+    MatChipsModule,
+    SweetAlert2Module.forRoot(),
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

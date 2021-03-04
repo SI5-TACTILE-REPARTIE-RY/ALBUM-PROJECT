@@ -31,12 +31,12 @@ export class WsService {
     return this.socket.fromEvent('vote-finished');
   }
 
-  sendUpVote() {
-    this.socket.emit('upVote');
+  sendUpVote(userLogin: string) {
+    this.socket.emit('upVote', userLogin);
   }
 
-  sendDownVote() {
-    this.socket.emit('downVote');
+  sendDownVote(userLogin: string) {
+    this.socket.emit('downVote', userLogin);
   }
 
   sessionRefreshed() {

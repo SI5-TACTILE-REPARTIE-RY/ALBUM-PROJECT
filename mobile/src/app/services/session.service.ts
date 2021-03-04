@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 
 export interface Session {
-  users: number;
+  users: string[];
   started: boolean;
   currentPhotoName: string;
   currentFilterName: string;
@@ -16,23 +16,22 @@ export interface Session {
   providedIn: 'root'
 })
 export class SessionService {
-  users$ = new BehaviorSubject<number>(0);
+  users$ = new BehaviorSubject<string[]>([]);
   sessionStarted$ = new BehaviorSubject<boolean>(false);
   currentPhotoName$ = new BehaviorSubject<string>(null);
   currentFilterName$ = new BehaviorSubject<string>('noFilter');
   photoKept$ = new BehaviorSubject<boolean>(null);
   cropperOwnerId$ = new BehaviorSubject<string>(null);
 
-  userID$ = new BehaviorSubject<string>(null);
-  private get userID(): string {
-    return this.userID$.getValue();
+  userLogin$ = new BehaviorSubject<string>(null);
+  private get userLogin(): string {
+    return this.userLogin$.getValue();
   }
 
   constructor(
       private wsService: WsService,
       private http: HttpService
   ) {
-    this.connect();
     this.updateSession();
     this.wsService.albumSessionResetEvent().subscribe(() => {
       this.updateSession();
@@ -43,7 +42,7 @@ export class SessionService {
     this.wsService.filterAppliedEvent().subscribe(async (filterName: string) => {
       this.currentFilterName$.next(filterName);
     });
-    this.wsService.usersEvent().subscribe((users: number) => {
+    this.wsService.usersEvent().subscribe((users: string[]) => {
       this.users$.next(users);
     });
     this.wsService.albumSessionStartedEvent().subscribe((photoName: string) => {
@@ -58,24 +57,25 @@ export class SessionService {
     });
   }
 
-  private connect() {
-    this.http.get('/connect').then((id: string) => {
-      this.userID$.next(id);
+  public connect(userLogin: string) {
+    this.http.get('/connect/' + userLogin).then(() => {
+      this.userLogin$.next(userLogin);
     }).catch(error => {
       console.log('ERROR::', error);
     });
   }
 
   lock(buttonName: string) {
-    this.http.get(`/lock/${buttonName}/${this.userID}`);
+    this.http.get(`/lock/${buttonName}/${this.userLogin}`);
   }
 
   unlock(buttonName: string) {
-    this.http.get(`/unlock/${buttonName}/${this.userID}`);
+    this.cropperOwnerId$.next(null);
+    this.http.get(`/unlock/${buttonName}/${this.userLogin}`);
   }
 
   disconnect(): Promise<any> {
-    return this.http.get(`/disconnect/${this.userID}`);
+    return this.http.get(`/disconnect/${this.userLogin}`);
   }
 
   async updateSession() {
@@ -84,6 +84,7 @@ export class SessionService {
   }
 
   setFromSession(session: Session) {
+    console.log(session);
     this.users$.next(session.users);
     this.sessionStarted$.next(session.started);
     this.currentPhotoName$.next(session.currentPhotoName);

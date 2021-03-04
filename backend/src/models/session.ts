@@ -1,5 +1,5 @@
 export const CurrentSession: Session = {
-  users: 0,
+  users: [],
   started: false,
   currentPhotoName: null,
   currentFilterName: 'noFilter',
@@ -9,7 +9,7 @@ export const CurrentSession: Session = {
 };
 
 export interface Session {
-  users: number;
+  users: string[];
   started: boolean;
   currentPhotoName: string;
   currentFilterName: string;

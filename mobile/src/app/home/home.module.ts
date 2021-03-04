@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { HTTP } from '@ionic-native/http/ngx';
-import { UsersOnlineComponent } from './users-online/users-online.component';
 import { VoteComponent } from './vote/vote.component';
 import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
 import { FiltersComponent } from './photo-editor/filters/filters.component';
@@ -16,6 +15,7 @@ import { LockButtonComponent } from '../lock-button/lock-button.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CropperComponent } from './photo-editor/cropper/cropper.component';
 import { PhotoService } from '../services/photo.service';
+import {ConnectedUsersComponent} from './connected-users/connected-users.component';
 
 @NgModule({
   imports: [
@@ -27,12 +27,12 @@ import { PhotoService } from '../services/photo.service';
   ],
   declarations: [
     HomePage,
-    UsersOnlineComponent,
     VoteComponent,
     PhotoEditorComponent,
     FiltersComponent,
     LockButtonComponent,
-    CropperComponent
+    CropperComponent,
+    ConnectedUsersComponent
   ],
   providers: [HTTP, HttpService, SessionService, WsService, PhotoService]
 })

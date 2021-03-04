@@ -14,15 +14,15 @@ export class LockService {
     this.ws.refresh();
   }
 
-  lock(buttonName: string, userId: string) {
+  lock(buttonName: string, userLogin: string) {
     if (buttonName === 'cropper') {
-      this.cropperOwnerId = userId;
+      this.cropperOwnerId = userLogin;
     }
   }
 
-  unlock(buttonName: string, userId: string) {
+  unlock(buttonName: string, userLogin: string) {
     if (buttonName === 'cropper') {
-      if (this.cropperOwnerId && this.cropperOwnerId === userId) {
+      if (this.cropperOwnerId && this.cropperOwnerId === userLogin) {
         this.cropperOwnerId = null;
       }
     }

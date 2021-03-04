@@ -24,9 +24,12 @@ export class AppService {
   }
 
   resetAlbumSession(): void {
+    CurrentSession.users = [];
     CurrentSession.started = false;
     CurrentSession.currentPhotoName = null;
     CurrentSession.currentFilterName = 'noFilter';
+    CurrentSession.cropperOwnerId = null;
+    CurrentSession.cropperPosition = null;
     CurrentSession.photoKept = null;
     this.wsGateway.albumSessionReset();
   }

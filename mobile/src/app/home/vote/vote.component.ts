@@ -2,6 +2,7 @@ import { WsService } from '../../services/ws.service';
 import {Component, AfterViewInit, EventEmitter, Output, Input, OnInit} from '@angular/core';
 import {DeviceMotion, DeviceMotionAccelerationData} from '@ionic-native/device-motion/ngx';
 import {PhotoService} from '../../services/photo.service';
+import {SessionService} from '../../services/session.service';
 
 @Component({
   selector: 'app-vote',
@@ -27,7 +28,8 @@ export class VoteComponent implements OnInit, AfterViewInit {
 
   constructor(private deviceMotion: DeviceMotion,
               private wsService: WsService,
-              private photoService: PhotoService) { }
+              private photoService: PhotoService,
+              private sessionService: SessionService) { }
 
   ngOnInit(): void {
     this.photoService.photoSrc$.subscribe(photoSrc => this.photoSrc = photoSrc);
@@ -47,10 +49,10 @@ export class VoteComponent implements OnInit, AfterViewInit {
     if (this.detectShake(acceleration)) {
       if (this.toggle) {
         this.downVote.emit();
-        this.wsService.sendDownVote();
+        this.wsService.sendDownVote(this.sessionService.userLogin$.value);
       } else {
         this.upVote.emit();
-        this.wsService.sendUpVote();
+        this.wsService.sendUpVote(this.sessionService.userLogin$.value);
       }
     } else {
       this.noVote.emit();
