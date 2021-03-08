@@ -3,17 +3,17 @@
 ## Nest.JS server - Backend
 
 1. Setup :                                  `backend> npm install`
-2. Run in developpement mode :              `backend> npm run start`
+2. Run :                                    `backend> npm run start`
 
 ## Angular App - Desktop
 
 1. On starting :                            `desktop> npm install`  
-2. To start web application on localhost:   `desktop> run start`
+2. To start web application on localhost:   `desktop> npm run start`
 
 ## Ionic App - Mobile
 
 1. On starting :                            `mobile> npm install`  
-2. To start web application on localhost:   `mobile> run start`
+2. To start web application on localhost:   `mobile> npm run start`
 
 ### To start on an android device :
 -  You will need Android Studio and Ionic CLI (install it with `mobile> npm install @ionic/cli`)
