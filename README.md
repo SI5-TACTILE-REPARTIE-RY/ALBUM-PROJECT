@@ -24,7 +24,7 @@
 2. Generate android files : `mobile> ionic capacitor add android`
 -  Update android file into the production environment `mobile> ionic cap sync --prod`
 -  Open the generated folder `mobile\android\app` into Android Studio
--  From Android Studio, in the generated file `frontend\waitingplacemanager\android\app\src\main\AndroidManifest.xml`, add `android:usesCleartextTraffic="true"`attribute to the `application` block like it :
+-  From Android Studio, in the generated file `mobile\android\app\src\main\AndroidManifest.xml`, add `android:usesCleartextTraffic="true"`attribute to the `application` block like it :
 ```
 <application
         ...
